@@ -1,0 +1,406 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║                  🔥 LIGHTER POOA - PROJECT STRUCTURE 🔥                 ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+📁 lighter-pooa/
+│
+├── 📄 BACKEND FILES (Node.js + Express + MongoDB)
+│   ├── server.js                    ⚙️  Main server file
+│   ├── package.json                 📦  Dependencies & scripts
+│   ├── .env                         🔐  Environment variables (API keys)
+│   ├── .env.example                 📋  Environment template
+│   ├── .gitignore                   🚫  Git ignore file
+│   │
+│   ├── 📁 models/                   💾  Database Schemas
+│   │   ├── User.js                  👤  User model (name, email, password, role)
+│   │   └── Order.js                 📦  Order model (items, payment, shipping)
+│   │
+│   ├── 📁 routes/                   🛣️  API Endpoints
+│   │   ├── auth.js                  🔑  /api/auth/* (register, login, profile)
+│   │   ├── orders.js                📋  /api/orders/* (create, view, update)
+│   │   ├── users.js                 👥  /api/users/* (admin user management)
+│   │   └── payment.js               💳  /api/payment/* (Paystack integration)
+│   │
+│   └── 📁 middleware/               🛡️  Custom Middleware
+│       └── auth.js                  🔒  JWT authentication & admin check
+│
+├── 📄 FRONTEND FILES (HTML + CSS + JavaScript)
+│   ├── index.html                   🏠  Main homepage
+│   ├── dashboard.html               📊  User dashboard
+│   ├── admin.html                   👨‍💼  Admin panel
+│   │
+│   ├── styles.css                   🎨  Main styling (smoker theme)
+│   ├── dashboard.css                🎨  Dashboard & admin styling
+│   │
+│   ├── script.js                    ⚡  Main functionality (cart, products)
+│   ├── auth.js                      🔐  Authentication logic
+│   ├── dashboard.js                 📊  Dashboard functionality
+│   ├── admin.js                     👨‍💼  Admin panel functionality
+│   └── config.js                    ⚙️  API endpoints & configuration
+│
+└── 📄 DOCUMENTATION
+    ├── README.md                    📖  Original project overview
+    ├── README_INSTALLATION.md       📘  Detailed installation guide
+    ├── SETUP_GUIDE.md               📗  Complete setup instructions
+    ├── QUICK_START.txt              ⚡  Quick reference card
+    ├── PROJECT_STRUCTURE.txt        📁  This file
+    └── START_SERVER.bat             🚀  Windows batch file to start server
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                          🔄 DATA FLOW DIAGRAM                           ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────┐
+│   BROWSER   │  (User Interface)
+│  HTML/CSS/JS│
+└──────┬──────┘
+       │
+       │ HTTP Requests (fetch/axios)
+       │
+       ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    EXPRESS SERVER (server.js)                │
+│                     http://localhost:5000                    │
+└──────┬──────────────────────────────────────────────────────┘
+       │
+       ├─► /api/auth/*      ──► routes/auth.js      ──► User Model
+       │                         (register, login)
+       │
+       ├─► /api/orders/*    ──► routes/orders.js    ──► Order Model
+       │                         (create, view)
+       │
+       ├─► /api/payment/*   ──► routes/payment.js   ──► Paystack API
+       │                         (initialize, verify)
+       │
+       └─► /api/users/*     ──► routes/users.js     ──► User Model
+                                 (admin only)
+       │
+       ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    MONGODB DATABASE                          │
+│                mongodb://localhost:27017                     │
+│                                                              │
+│  Collections:                                                │
+│  ├── users    (name, email, password, role, address)        │
+│  └── orders   (items, payment, shipping, status)            │
+└─────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                        🔐 AUTHENTICATION FLOW                           ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+1. User Registration/Login
+   ┌──────────┐
+   │  Browser │ ──► POST /api/auth/register or /api/auth/login
+   └──────────┘
+        │
+        ▼
+   ┌──────────────┐
+   │ auth.js      │ ──► Validate credentials
+   │ (routes)     │ ──► Hash password (bcrypt)
+   └──────────────┘ ──► Create/Find user in MongoDB
+        │
+        ▼
+   ┌──────────────┐
+   │ Generate JWT │ ──► Token contains: userId, role
+   │ Token        │ ──► Expires in 7 days
+   └──────────────┘
+        │
+        ▼
+   ┌──────────────┐
+   │ Return Token │ ──► Browser stores in localStorage
+   │ to Browser   │ ──► Used for all future requests
+   └──────────────┘
+
+2. Protected Routes
+   ┌──────────┐
+   │  Browser │ ──► Request with Authorization: Bearer <token>
+   └──────────┘
+        │
+        ▼
+   ┌──────────────┐
+   │ auth.js      │ ──► Verify JWT token
+   │ (middleware) │ ──► Check if user exists
+   └──────────────┘ ──► Check if admin (for admin routes)
+        │
+        ▼
+   ┌──────────────┐
+   │ Allow/Deny   │ ──► If valid: proceed to route
+   │ Access       │ ──► If invalid: return 401 Unauthorized
+   └──────────────┘
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                        💳 PAYMENT FLOW (PAYSTACK)                       ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+1. User clicks "Complete Purchase"
+   │
+   ▼
+2. Frontend sends order data to backend
+   POST /api/payment/initialize
+   │
+   ▼
+3. Backend calls Paystack API
+   POST https://api.paystack.co/transaction/initialize
+   │
+   ▼
+4. Paystack returns payment reference
+   │
+   ▼
+5. Frontend opens Paystack popup
+   User enters card details
+   │
+   ▼
+6. Paystack processes payment
+   │
+   ▼
+7. On success, callback triggered
+   │
+   ▼
+8. Frontend verifies payment
+   GET /api/payment/verify/:reference
+   │
+   ▼
+9. Backend verifies with Paystack
+   GET https://api.paystack.co/transaction/verify/:reference
+   │
+   ▼
+10. Create order in database
+    POST /api/orders
+    │
+    ▼
+11. Update payment status
+    PUT /api/orders/:id/payment
+    │
+    ▼
+12. Redirect to dashboard
+    User can view order
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                          📊 USER ROLES & ACCESS                         ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ 👤 REGULAR USER (role: "user")                                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│ ✅ Can Access:                                                          │
+│   • Homepage (browse products)                                          │
+│   • Shopping cart                                                       │
+│   • Checkout & payment                                                  │
+│   • User dashboard (/dashboard)                                         │
+│   • View own orders                                                     │
+│   • Update own profile                                                  │
+│                                                                          │
+│ ❌ Cannot Access:                                                       │
+│   • Admin panel                                                         │
+│   • Other users' orders                                                 │
+│   • User management                                                     │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ 👨‍💼 ADMIN USER (role: "admin")                                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│ ✅ Can Access:                                                          │
+│   • Everything regular users can access                                 │
+│   • Admin panel (/admin)                                                │
+│   • View all orders                                                     │
+│   • Update order status                                                 │
+│   • View all users                                                      │
+│   • View statistics (revenue, orders, users)                           │
+│   • Filter orders by status                                             │
+└─────────────────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                        🗄️ DATABASE COLLECTIONS                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ 👤 USERS COLLECTION                                                     │
+├─────────────────────────────────────────────────────────────────────────┤
+│ {                                                                        │
+│   _id: ObjectId,                                                        │
+│   name: String,                                                         │
+│   email: String (unique),                                               │
+│   password: String (hashed with bcrypt),                                │
+│   phone: String,                                                        │
+│   address: {                                                            │
+│     street: String,                                                     │
+│     city: String,                                                       │
+│     state: String,                                                      │
+│     zipCode: String                                                     │
+│   },                                                                    │
+│   role: String ("user" or "admin"),                                     │
+│   createdAt: Date                                                       │
+│ }                                                                        │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ 📦 ORDERS COLLECTION                                                    │
+├─────────────────────────────────────────────────────────────────────────┤
+│ {                                                                        │
+│   _id: ObjectId,                                                        │
+│   userId: ObjectId (ref: User),                                         │
+│   orderNumber: String (auto-generated, e.g., "LP1234567890"),          │
+│   items: [                                                              │
+│     {                                                                   │
+│       productId: Number,                                                │
+│       name: String,                                                     │
+│       price: Number,                                                    │
+│       quantity: Number,                                                 │
+│       emoji: String                                                     │
+│     }                                                                   │
+│   ],                                                                    │
+│   totalAmount: Number,                                                  │
+│   shippingInfo: {                                                       │
+│     firstName, lastName, email, phone,                                  │
+│     street, city, state, zipCode                                        │
+│   },                                                                    │
+│   paymentInfo: {                                                        │
+│     reference: String (Paystack reference),                             │
+│     status: String ("pending", "success", "failed"),                    │
+│     paidAt: Date                                                        │
+│   },                                                                    │
+│   orderStatus: String ("pending", "processing", "shipped",              │
+│                        "delivered", "cancelled"),                       │
+│   createdAt: Date,                                                      │
+│   updatedAt: Date                                                       │
+│ }                                                                        │
+└─────────────────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                          🔌 API ENDPOINTS                               ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+🔐 AUTHENTICATION (Public)
+├── POST   /api/auth/register        Register new user
+├── POST   /api/auth/login           Login user
+├── GET    /api/auth/me              Get current user (protected)
+└── PUT    /api/auth/profile         Update profile (protected)
+
+📦 ORDERS (Protected)
+├── POST   /api/orders                      Create new order
+├── GET    /api/orders/my-orders            Get user's orders
+├── GET    /api/orders/:id                  Get single order
+└── PUT    /api/orders/:id/payment          Update payment status
+
+👨‍💼 ADMIN (Protected + Admin Only)
+├── GET    /api/orders/admin/all            Get all orders
+├── PUT    /api/orders/admin/:id/status     Update order status
+├── GET    /api/orders/admin/stats          Get order statistics
+├── GET    /api/users/admin/all             Get all users
+└── GET    /api/users/admin/stats           Get user statistics
+
+💳 PAYMENT (Protected)
+├── POST   /api/payment/initialize          Initialize Paystack payment
+└── GET    /api/payment/verify/:ref         Verify payment
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                    🎨 FRONTEND PAGES & FEATURES                         ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+🏠 INDEX.HTML (Homepage)
+├── Header with logo & navigation
+├── Auth buttons (Login/Signup) or User menu (Dashboard/Logout)
+├── Hero section
+├── Products section (12 products)
+│   ├── Filter by category (All, Lighters, Accessories, Gadgets)
+│   └── Add to cart functionality
+├── About section
+├── Contact section
+├── Footer
+├── Cart sidebar (slide-in)
+├── Checkout modal
+├── Login modal
+└── Signup modal
+
+📊 DASHBOARD.HTML (User Dashboard)
+├── Header with logout button
+├── Profile information card
+│   ├── Name, email, phone
+│   ├── Member since date
+│   └── Edit profile button
+├── Orders section
+│   ├── List of all user orders
+│   ├── Order details (items, total, status)
+│   └── Click to view full order details
+└── Edit profile modal
+
+👨‍💼 ADMIN.HTML (Admin Panel)
+├── Header with logout button
+├── Statistics cards
+│   ├── Total orders
+│   ├── Pending orders
+│   ├── Delivered orders
+│   ├── Total revenue
+│   ├── Total users
+│   └── New users (30 days)
+├── Orders management
+│   ├── Filter by status tabs
+│   ├── Orders table (all orders)
+│   ├── View order details
+│   └── Update order status
+├── Users management
+│   └── Users table (all users)
+└── Modals for order details & status update
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                      🎯 KEY FEATURES SUMMARY                            ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+✅ User Authentication
+   • Secure signup/login with JWT
+   • Password hashing with bcrypt
+   • Protected routes
+   • Role-based access (user/admin)
+
+✅ Shopping Experience
+   • 12 products across 3 categories
+   • Category filtering
+   • Shopping cart with localStorage
+   • Quantity management
+   • Real-time total calculation
+
+✅ Payment Integration
+   • Paystack payment gateway
+   • Secure payment processing
+   • Payment verification
+   • Test mode support
+
+✅ User Dashboard
+   • Profile management
+   • Order history
+   • Order details view
+   • Edit profile
+
+✅ Admin Panel
+   • Statistics dashboard
+   • Order management
+   • Status updates
+   • User management
+   • Revenue tracking
+
+✅ Design & UX
+   • Responsive (mobile, tablet, desktop)
+   • Smoker theme (dark, atmospheric)
+   • Animated smoke effects
+   • Smooth transitions
+   • Interactive elements
+
+✅ Security
+   • JWT authentication
+   • Password hashing
+   • Protected API routes
+   • Input validation
+   • CORS configuration
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                         🚀 READY TO START!                              ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+1. Install Node.js & MongoDB
+2. Run: npm install
+3. Configure Paystack keys in .env and config.js
+4. Run: npm start
+5. Open: http://localhost:5000
+
+📖 For detailed instructions, see README_INSTALLATION.md

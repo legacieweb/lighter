@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lighter Pooa - Premium Lighters & Smoking Accessories</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Video -->
+    <video class="background-video" autoplay muted loop playsinline>
+        <source src="flames.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>🔥 LIGHTER POOA</h1>
+                <p class="tagline">Premium Smoking Experience</p>
+            </div>
+            <nav class="nav">
+                <button class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#products" class="nav-link">Products</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Desktop Header Actions -->
+            <div class="header-actions desktop-only">
+                <!-- Auth Buttons (shown when not logged in) -->
+                <div class="auth-buttons" id="authButtons">
+                    <a class="btn-auth btn-login" id="loginBtn" href="login.html">Login</a>
+                    <a class="btn-auth btn-signup" id="signupBtn" href="signup.html">Sign Up</a>
+                </div>
+                <!-- User Menu (shown when logged in) -->
+                <div class="user-menu" id="userMenu" style="display: none;">
+                    <span class="user-greeting" id="userGreeting">Welcome!</span>
+                    <a href="dashboard.html" class="btn-auth btn-dashboard">Dashboard</a>
+                    <button class="btn-auth btn-logout" id="logoutBtn">Logout</button>
+                </div>
+                <button class="cart-btn" id="cartBtn">
+                    🛒 Cart <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Overlay -->
+            <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+                <div class="mobile-menu-content">
+                    <div class="mobile-menu-header">
+                        <div class="logo">
+                            <h1>🔥 LIGHTER POOA</h1>
+                            <p class="tagline">Premium Smoking Experience</p>
+                        </div>
+                        <button class="mobile-menu-close" id="mobileMenuClose">&times;</button>
+                    </div>
+
+                    <nav class="mobile-nav">
+                        <ul class="mobile-nav-menu">
+                            <li><a href="#home" class="mobile-nav-link active">Home</a></li>
+                            <li><a href="#products" class="mobile-nav-link">Products</a></li>
+                            <li><a href="#about" class="mobile-nav-link">About</a></li>
+                            <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="mobile-auth-section" id="mobileAuthSection">
+                        <!-- Auth Buttons for Mobile -->
+                        <div class="mobile-auth-buttons" id="mobileAuthButtons">
+                            <a class="btn-auth btn-login mobile-btn" href="login.html">Login</a>
+                            <a class="btn-auth btn-signup mobile-btn" href="signup.html">Sign Up</a>
+                        </div>
+                        <!-- User Menu for Mobile -->
+                        <div class="mobile-user-menu" id="mobileUserMenu" style="display: none;">
+                            <div class="mobile-user-info">
+                                <span class="mobile-user-greeting" id="mobileUserGreeting">Welcome!</span>
+                            </div>
+                            <a href="dashboard.html" class="btn-auth btn-dashboard mobile-btn">Dashboard</a>
+                            <button class="btn-auth btn-logout mobile-btn" id="mobileLogoutBtn">Logout</button>
+                        </div>
+                    </div>
+
+                    <div class="mobile-cart-section">
+                        <button class="cart-btn mobile-cart-btn" id="mobileCartBtn">
+                            🛒 Cart <span class="cart-count" id="mobileCartCount">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="hero-title">Light Up Your Style</h2>
+                <p class="hero-subtitle">Discover premium lighters, exclusive gadgets, and smoking accessories</p>
+                <a href="#products" class="btn btn-primary">Shop Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <h2 class="section-title">Our Collection</h2>
+            
+            <!-- Filter Buttons -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Products</button>
+                <button class="filter-btn" data-filter="lighters">Lighters</button>
+                <button class="filter-btn" data-filter="accessories">Accessories</button>
+                <button class="filter-btn" data-filter="gadgets">Gadgets</button>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">About Lighter Pooa</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Welcome to Lighter Pooa, your premier destination for high-quality lighters, smoking accessories, and exclusive gadgets. We curate only the finest products for discerning enthusiasts.</p>
+                    <p>Our collection features everything from classic Zippo lighters to cutting-edge torch lighters, premium rolling papers, and unique smoking accessories you won't find anywhere else.</p>
+                    <div class="features">
+                        <div class="feature">
+                            <span class="feature-icon">✓</span>
+                            <span>Premium Quality</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">✓</span>
+                            <span>Fast Shipping</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">✓</span>
+                            <span>Secure Payment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <form class="contact-form" id="contactForm">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>📧 Email</h3>
+                        <p>info@lighterpooa.com</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>📱 Phone</h3>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>⏰ Hours</h3>
+                        <p>Mon-Fri: 9AM - 6PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Lighter Pooa. All rights reserved.</p>
+            <p class="disclaimer">Must be 21+ to purchase. Please smoke responsibly.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-cart" id="closeCart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-price" id="totalPrice">$0.00</span>
+            </div>
+            <button class="btn btn-primary btn-block" id="checkoutBtn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Checkout</h2>
+                <button class="close-modal" id="closeCheckout">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="checkout-form" id="checkoutForm">
+                    <h3>Shipping Information</h3>
+                    <div class="form-row">
+                        <input type="text" name="firstName" placeholder="First Name" required>
+                        <input type="text" name="lastName" placeholder="Last Name" required>
+                    </div>
+                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="tel" name="phone" placeholder="Phone Number" required>
+                    <input type="text" name="street" placeholder="Street Address" required>
+                    <div class="form-row">
+                        <input type="text" name="city" placeholder="City" required>
+                        <input type="text" name="state" placeholder="State" required>
+                        <input type="text" name="zipCode" placeholder="ZIP Code" required>
+                    </div>
+
+                    <div class="order-summary">
+                        <h3>Order Summary</h3>
+                        <div class="summary-items" id="summaryItems"></div>
+                        <div class="summary-total">
+                            <span>Total:</span>
+                            <span id="checkoutTotal">$0.00</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Complete Purchase</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        <div class="success-content">
+            <span class="success-icon">✓</span>
+            <p>Order placed successfully!</p>
+        </div>
+    </div>
+
+    <!-- Load Configuration and Scripts -->
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

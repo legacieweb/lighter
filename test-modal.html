@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Test</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <style>
+        body {
+            padding: 50px;
+            background: #0d0d0d;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-btn {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+        .status {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .status-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Modal Test Page</h1>
+        <p>This page tests the modal functionality in isolation.</p>
+        
+        <div>
+            <button class="test-btn" onclick="openTestModal()">Open Modal</button>
+            <button class="test-btn" onclick="clearStatus()">Clear Status</button>
+        </div>
+
+        <div class="status" id="status">
+            <h3>Status Log:</h3>
+            <div id="statusLog"></div>
+        </div>
+    </div>
+
+    <!-- Test Modal -->
+    <div class="modal" id="testModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Test Modal</h2>
+                <button class="close-modal" id="closeModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3>Modal Content</h3>
+                <p>This is a test modal to verify the functionality.</p>
+                <p>Click the X button, backdrop, or press ESC to close.</p>
+                <button class="test-btn" onclick="logStatus('Button inside modal clicked')">Click Me</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logStatus(message) {
+            const log = document.getElementById('statusLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const item = document.createElement('div');
+            item.className = 'status-item';
+            item.textContent = `[${timestamp}] ${message}`;
+            log.insertBefore(item, log.firstChild);
+            console.log(message);
+        }
+
+        function clearStatus() {
+            document.getElementById('statusLog').innerHTML = '';
+            logStatus('Status cleared');
+        }
+
+        function openTestModal() {
+            logStatus('Opening modal...');
+            const modal = document.getElementById('testModal');
+            logStatus('Modal element found: ' + (modal ? 'Yes' : 'No'));
+            logStatus('Modal classes before: ' + modal.className);
+            
+            // Force reflow
+            modal.offsetHeight;
+            modal.classList.add('active');
+            
+            logStatus('Modal classes after: ' + modal.className);
+            document.body.style.overflow = 'hidden';
+            logStatus('Modal opened successfully');
+        }
+
+        function closeTestModal() {
+            logStatus('Closing modal...');
+            const modal = document.getElementById('testModal');
+            logStatus('Modal classes before close: ' + modal.className);
+            
+            modal.classList.remove('active');
+            
+            logStatus('Modal classes after close: ' + modal.className);
+            document.body.style.overflow = '';
+            logStatus('Modal closed successfully');
+        }
+
+        // Setup event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            logStatus('Page loaded, setting up event listeners...');
+            
+            // Close button
+            document.getElementById('closeModalBtn').addEventListener('click', () => {
+                logStatus('Close button clicked');
+                closeTestModal();
+            });
+
+            // ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    logStatus('ESC key pressed');
+                    closeTestModal();
+                }
+            });
+
+            // Backdrop click
+            document.getElementById('testModal').addEventListener('click', (e) => {
+                logStatus('Modal clicked - Target: ' + e.target.id + ' / ' + e.target.className);
+                if (e.target.id === 'testModal' || e.target.classList.contains('modal-backdrop')) {
+                    e.stopPropagation();
+                    logStatus('Backdrop clicked, closing modal');
+                    closeTestModal();
+                }
+            });
+
+            // Prevent modal content clicks from closing
+            document.querySelector('.modal-content').addEventListener('click', (e) => {
+                logStatus('Modal content clicked, preventing close');
+                e.stopPropagation();
+            });
+
+            logStatus('Event listeners setup complete');
+        });
+    </script>
+</body>
+</html>

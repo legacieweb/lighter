@@ -1,0 +1,365 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║                  🔥 LIGHTER POOA - INSTALLATION CHECKLIST 🔥            ║
+║                         Follow These Steps in Order                      ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ ⚠️  CURRENT STATUS: Node.js is NOT installed on your system             │
+│    You need to install it before you can run the server                 │
+└──────────────────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║ STEP 1: INSTALL NODE.JS (REQUIRED)                                      ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+[ ] 1. Go to: https://nodejs.org/
+[ ] 2. Click "Download LTS" (Long Term Support version)
+[ ] 3. Run the downloaded installer (.msi file)
+[ ] 4. Click "Next" through the installation wizard
+[ ] 5. Accept the license agreement
+[ ] 6. Use default installation path
+[ ] 7. Make sure "Add to PATH" is checked
+[ ] 8. Click "Install"
+[ ] 9. Restart your computer
+
+[ ] 10. Verify installation:
+        Open PowerShell and type:
+        node --version
+        npm --version
+        
+        ✅ You should see version numbers like:
+        v20.11.0
+        10.2.4
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║ STEP 2: INSTALL MONGODB (REQUIRED)                                      ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+Choose ONE option:
+
+OPTION A: Local MongoDB (Recommended for Development)
+─────────────────────────────────────────────────────
+[ ] 1. Go to: https://www.mongodb.com/try/download/community
+[ ] 2. Select:
+        - Version: Latest (7.0 or higher)
+        - Platform: Windows
+        - Package: MSI
+[ ] 3. Download and run the installer
+[ ] 4. Choose "Complete" installation
+[ ] 5. Install as a Windows Service (check the box)
+[ ] 6. Install MongoDB Compass (GUI tool) - recommended
+[ ] 7. Click "Install"
+
+[ ] 8. Verify MongoDB is running:
+        - Open Services (Win + R, type "services.msc")
+        - Find "MongoDB Server"
+        - Status should be "Running"
+        - If not, right-click → Start
+
+OPTION B: MongoDB Atlas (Cloud - Easier Setup)
+───────────────────────────────────────────────
+[ ] 1. Go to: https://www.mongodb.com/cloud/atlas/register
+[ ] 2. Create a free account
+[ ] 3. Create a new project
+[ ] 4. Build a cluster (choose FREE M0 tier)
+[ ] 5. Choose a cloud provider and region (any)
+[ ] 6. Click "Create Cluster" (takes 3-5 minutes)
+[ ] 7. Create a database user:
+        - Username: lighterpooa
+        - Password: (create a strong password)
+[ ] 8. Add your IP address to whitelist:
+        - Click "Network Access"
+        - Click "Add IP Address"
+        - Click "Allow Access from Anywhere" (for testing)
+[ ] 9. Get connection string:
+        - Click "Connect"
+        - Choose "Connect your application"
+        - Copy the connection string
+        - Replace <password> with your database password
+
+[ ] 10. Update .env file:
+         Change this line:
+         MONGODB_URI=mongodb://localhost:27017/lighter-pooa
+         
+         To your Atlas connection string:
+         MONGODB_URI=mongodb+srv://lighterpooa:<password>@cluster0.xxxxx.mongodb.net/lighter-pooa
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║ STEP 3: INSTALL PROJECT DEPENDENCIES                                    ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+[ ] 1. Open PowerShell
+
+[ ] 2. Navigate to project folder:
+        cd "c:\Users\HomePC\Desktop\lighter pooa"
+
+[ ] 3. Install dependencies:
+        npm install
+
+[ ] 4. Wait for installation to complete (may take 1-2 minutes)
+
+[ ] 5. Verify installation:
+        You should see a new folder called "node_modules"
+        
+        Check with:
+        Test-Path "node_modules"
+        
+        ✅ Should return: True
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║ STEP 4: CONFIGURE PAYSTACK API KEYS (REQUIRED)                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+[ ] 1. Get your Paystack API keys:
+        - Go to: https://dashboard.paystack.com/
+        - Login to your account
+        - Go to: Settings → API Keys & Webhooks
+        - Copy your TEST PUBLIC KEY (starts with pk_test_)
+        - Copy your TEST SECRET KEY (starts with sk_test_)
+
+[ ] 2. Open the .env file in a text editor
+
+[ ] 3. Find these lines:
+        PAYSTACK_SECRET_KEY=sk_test_your_paystack_secret_key_here
+        PAYSTACK_PUBLIC_KEY=pk_test_your_paystack_public_key_here
+
+[ ] 4. Replace with your actual keys:
+        PAYSTACK_SECRET_KEY=sk_test_abc123xyz...
+        PAYSTACK_PUBLIC_KEY=pk_test_abc123xyz...
+
+[ ] 5. Save the .env file
+
+[ ] 6. Open the config.js file in a text editor
+
+[ ] 7. Find this line:
+        const PAYSTACK_PUBLIC_KEY = 'pk_test_your_paystack_public_key_here';
+
+[ ] 8. Replace with your actual public key:
+        const PAYSTACK_PUBLIC_KEY = 'pk_test_abc123xyz...';
+
+[ ] 9. Save the config.js file
+
+⚠️  IMPORTANT: Make sure you use the SAME public key in both files!
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║ STEP 5: START THE SERVER                                                ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+[ ] 1. Make sure MongoDB is running (if using local MongoDB)
+
+[ ] 2. Open PowerShell in the project folder
+
+[ ] 3. Start the server:
+        npm start
+
+[ ] 4. Wait for success messages:
+        ✅ You should see:
+        🔥 Lighter Pooa Server running on port 5000
+        ✅ MongoDB connected successfully
+        ✅ Admin user created: admin@lighterpooa.com
+
+[ ] 5. Keep this PowerShell window open (server is running)
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║ STEP 6: ACCESS YOUR WEBSITE                                             ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+[ ] 1. Open your web browser (Chrome, Firefox, Edge)
+
+[ ] 2. Go to: http://localhost:5000
+
+[ ] 3. You should see the Lighter Pooa homepage with:
+        - Header with "Sign Up" and "Login" buttons
+        - Hero section
+        - Products section
+        - About section
+        - Contact section
+
+✅ If you see the website, congratulations! Installation successful!
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║ STEP 7: TEST THE SYSTEM                                                 ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+TEST 1: User Registration
+─────────────────────────
+[ ] 1. Click "Sign Up" button in header
+[ ] 2. Fill in the form:
+        - Name: Your Name
+        - Email: your@email.com
+        - Password: (at least 6 characters)
+        - Phone: Your phone number
+[ ] 3. Click "Create Account"
+[ ] 4. You should be logged in automatically
+[ ] 5. Notice header now shows "Dashboard" and "Logout" buttons
+
+TEST 2: Shopping Cart
+─────────────────────
+[ ] 1. Scroll to products section
+[ ] 2. Click "Add to Cart" on any product
+[ ] 3. Click the cart icon (top right)
+[ ] 4. Cart sidebar should slide in
+[ ] 5. Try changing quantity with +/- buttons
+[ ] 6. Try removing an item
+[ ] 7. Add more products
+
+TEST 3: Checkout & Payment
+───────────────────────────
+[ ] 1. Click "Proceed to Checkout" in cart
+[ ] 2. Checkout modal should appear
+[ ] 3. Shipping info should be pre-filled (from your profile)
+[ ] 4. Click "Complete Purchase"
+[ ] 5. Paystack popup should appear
+[ ] 6. Use Paystack TEST CARD:
+        Card Number: 4084084084084081
+        Expiry: 12/25 (any future date)
+        CVV: 123 (any 3 digits)
+        PIN: 1234 (if asked)
+[ ] 7. Click "Pay"
+[ ] 8. Payment should succeed
+[ ] 9. You should be redirected to dashboard
+
+TEST 4: User Dashboard
+──────────────────────
+[ ] 1. Click "Dashboard" in header
+[ ] 2. You should see:
+        - Your profile information
+        - Your order history
+[ ] 3. Click "View Details" on an order
+[ ] 4. Order details modal should appear
+[ ] 5. Click "Edit Profile"
+[ ] 6. Update your information
+[ ] 7. Click "Save Changes"
+
+TEST 5: Admin Panel
+────────────────────
+[ ] 1. Click "Logout"
+[ ] 2. Click "Login"
+[ ] 3. Login with admin credentials:
+        Email: admin@lighterpooa.com
+        Password: admin123
+[ ] 4. Click "Dashboard"
+[ ] 5. You should see the ADMIN PANEL (not user dashboard)
+[ ] 6. Check statistics cards:
+        - Total Orders
+        - Pending Orders
+        - Total Revenue
+        - Total Users
+[ ] 7. Scroll to "Orders Management"
+[ ] 8. You should see all orders from all users
+[ ] 9. Click "View Details" on an order
+[ ] 10. Click "Update Status"
+[ ] 11. Change status to "Processing"
+[ ] 12. Click "Update"
+[ ] 13. Scroll to "Users Management"
+[ ] 14. You should see all registered users
+
+✅ If all tests pass, your system is fully functional!
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║ IMPORTANT NOTES                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+📌 DEFAULT ADMIN CREDENTIALS:
+   Email: admin@lighterpooa.com
+   Password: admin123
+   ⚠️  Change this password after first login!
+
+📌 PAYSTACK TEST CARD:
+   Card: 4084084084084081
+   Expiry: Any future date
+   CVV: Any 3 digits
+   PIN: 1234 (if asked)
+
+📌 TO STOP THE SERVER:
+   Press Ctrl + C in the PowerShell window
+
+📌 TO START THE SERVER AGAIN:
+   Run: npm start
+   Or double-click: START_SERVER.bat
+
+📌 KEEP POWERSHELL WINDOW OPEN:
+   The server runs in the PowerShell window
+   Closing it will stop the server
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║ TROUBLESHOOTING                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+❌ Problem: "Cannot connect to MongoDB"
+✅ Solution:
+   - Check if MongoDB service is running (services.msc)
+   - Or use MongoDB Atlas instead
+
+❌ Problem: "Port 5000 already in use"
+✅ Solution:
+   - Change PORT in .env to 3000
+   - Or stop the process using port 5000
+
+❌ Problem: "Paystack payment not working"
+✅ Solution:
+   - Verify Paystack keys in .env and config.js
+   - Make sure both keys are from the same account
+   - Use TEST keys for testing
+
+❌ Problem: "Cannot find module 'express'"
+✅ Solution:
+   - Run: npm install
+
+❌ Problem: "node is not recognized"
+✅ Solution:
+   - Install Node.js (Step 1)
+   - Restart computer after installation
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║ WHAT'S INCLUDED IN YOUR PROJECT                                         ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+✅ User Authentication (Signup/Login with JWT)
+✅ Shopping Cart (Add/Remove items, quantity management)
+✅ Paystack Payment Integration (Test & Live modes)
+✅ User Dashboard (Profile, order history)
+✅ Admin Panel (Order management, user management, statistics)
+✅ Responsive Design (Mobile, tablet, desktop)
+✅ Smoker Theme (Dark, atmospheric design)
+✅ MongoDB Database (User & order storage)
+✅ RESTful API Backend (Express.js)
+✅ Security Features (Password hashing, JWT tokens)
+✅ Order Status Tracking (Pending, processing, shipped, delivered)
+✅ Role-Based Access (User vs Admin)
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║ NEXT STEPS AFTER INSTALLATION                                           ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+1. [ ] Change admin password
+2. [ ] Add real product images (replace emojis)
+3. [ ] Customize colors and branding
+4. [ ] Add more products
+5. [ ] Test with real Paystack account
+6. [ ] Deploy to production (when ready)
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║ NEED MORE HELP?                                                         ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+📖 Read these files:
+   - STATUS_AND_NEXT_STEPS.md (Detailed status & instructions)
+   - README_INSTALLATION.md (Complete installation guide)
+   - SETUP_GUIDE.md (Setup instructions)
+   - PROJECT_STRUCTURE.txt (Visual project structure)
+   - QUICK_START.txt (Quick reference)
+
+🔍 Check error messages:
+   - Terminal/PowerShell (backend errors)
+   - Browser Console (F12) (frontend errors)
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                         🎉 YOU'RE READY TO GO! 🎉                       ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+Follow the steps above in order, and you'll have a fully functional
+e-commerce platform with payment integration, user authentication,
+and admin panel!
+
+Good luck! 🔥

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Lighter Pooa</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Video -->
+    <video class="background-video" autoplay muted loop playsinline>
+        <source src="flames.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/" style="text-decoration: none; color: inherit;">
+                    <h1>🔥 LIGHTER POOA</h1>
+                    <p class="tagline">Premium Smoking Experience</p>
+                </a>
+            </div>
+            <div class="header-actions">
+                <button class="btn-auth btn-home" onclick="window.location.href='index.html'">Home</button>
+                <button class="btn-auth btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+        <div class="container">
+            <h1 class="dashboard-title">My Dashboard</h1>
+
+            <!-- User Info Section -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2>Profile Information</h2>
+                    <button class="btn-edit" id="editProfileBtn">Edit Profile</button>
+                </div>
+                <div class="profile-card">
+                    <div class="profile-info">
+                        <div class="info-item">
+                            <span class="info-label">First Name:</span>
+                            <span class="info-value" id="userFirstName">Loading...</span>
+                            <input type="text" class="info-input" id="editUserFirstName" placeholder="Enter your first name" style="display: none;">
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Last Name:</span>
+                            <span class="info-value" id="userLastName">Loading...</span>
+                            <input type="text" class="info-input" id="editUserLastName" placeholder="Enter your last name" style="display: none;">
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value" id="userEmail">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Phone:</span>
+                            <span class="info-value" id="userPhone">Not set</span>
+                            <input type="tel" class="info-input" id="editUserPhone" placeholder="Enter your phone number" style="display: none;">
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Street Address:</span>
+                            <span class="info-value" id="userStreet">Not set</span>
+                            <input type="text" class="info-input" id="editUserStreet" placeholder="Enter your street address" style="display: none;">
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">City:</span>
+                            <span class="info-value" id="userCity">Not set</span>
+                            <input type="text" class="info-input" id="editUserCity" placeholder="Enter your city" style="display: none;">
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">State:</span>
+                            <span class="info-value" id="userState">Not set</span>
+                            <input type="text" class="info-input" id="editUserState" placeholder="Enter your state/province" style="display: none;">
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">ZIP Code:</span>
+                            <span class="info-value" id="userZipCode">Not set</span>
+                            <input type="text" class="info-input" id="editUserZipCode" style="display: none;">
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Member Since:</span>
+                            <span class="info-value" id="memberSince">Loading...</span>
+                        </div>
+                    </div>
+
+                    <!-- Edit Actions (shown when editing) -->
+                    <div class="edit-actions" id="editActions" style="display: none;">
+                        <button class="btn-edit btn-save" id="saveProfileBtn">Save Changes</button>
+                        <button class="btn-edit btn-cancel" id="cancelEditBtn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2>My Orders</h2>
+                </div>
+                <div class="orders-container" id="ordersContainer">
+                    <p class="loading-text">Loading orders...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Order Details Modal -->
+    <div class="modal" id="orderDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <button class="close-modal" id="closeOrderDetails">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="orderDetailsContent">
+                    <!-- Order details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        <div class="success-content">
+            <span class="success-icon">✓</span>
+            <p id="successText">Success!</p>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
