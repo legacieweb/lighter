@@ -3,7 +3,7 @@
 // ============================================
 
 // API Base URL - Change this if your backend runs on a different port
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://lighter-s6lv.onrender.com/api';
 
 // Paystack Public Key (Replace with your actual public key)
 const PAYSTACK_PUBLIC_KEY = 'pk_test_232531a5c927ef2cc67ed1b85af3f26e3b8ed2f2';
@@ -118,7 +118,7 @@ async function apiCall(url, options = {}) {
         
         // Check for network errors
         if (error.message.includes('fetch') || error.message.includes('Failed to fetch')) {
-            throw new Error('Cannot connect to server. Please make sure the server is running on http://localhost:5000');
+            throw new Error('Cannot connect to server. Please make sure the server is running on https://lighter-s6lv.onrender.com');
         }
         
         // Check for CORS errors
