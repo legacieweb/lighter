@@ -290,7 +290,7 @@ function addToCart(productId) {
 
     saveCart();
     updateCartUI();
-    showNotification('Item added to cart!');
+    showNotification('Item added to cart!', 'success', true);
 }
 
 // ===== UPDATE CART UI =====
@@ -541,24 +541,48 @@ function showSuccessMessage() {
 }
 
 // ===== SHOW NOTIFICATION =====
-function showNotification(message, type = 'success') {
+function showNotification(message, type = 'success', showCartButton = false) {
     const notification = document.createElement('div');
     const icon = type === 'error' ? '✗' : '✓';
     const bgColor = type === 'error' ? 'var(--danger-color)' : 'var(--success-color)';
     
     notification.className = 'success-message active';
     notification.style.background = bgColor;
-    notification.innerHTML = `
+    
+    let notificationContent = `
         <div class="success-content">
             <span class="success-icon">${icon}</span>
             <p>${message}</p>
+    `;
+    
+    if (showCartButton && type !== 'error') {
+        notificationContent += `
+            <button class="notification-cart-btn" onclick="openCartFromNotification()">
+                <i class="fas fa-shopping-cart"></i> Proceed to Cart
+            </button>
+        `;
+    }
+    
+    notificationContent += `
         </div>
     `;
+    
+    notification.innerHTML = notificationContent;
     document.body.appendChild(notification);
     
+    // Adjust timeout if cart button is shown
+    const timeout = showCartButton ? 5000 : 3000;
     setTimeout(() => {
         notification.remove();
-    }, 3000);
+    }, timeout);
+}
+
+// Function to open cart from notification
+function openCartFromNotification() {
+    // Remove all notifications
+    document.querySelectorAll('.success-message').forEach(notif => notif.remove());
+    // Open cart
+    toggleCart();
 }
 
 // ===== SETUP EVENT LISTENERS =====

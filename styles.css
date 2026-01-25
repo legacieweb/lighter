@@ -205,11 +205,11 @@ body {
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
     z-index: 2000;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s ease;
 }
 
 .mobile-menu-overlay.active {
@@ -221,15 +221,15 @@ body {
     position: fixed;
     top: 0;
     right: 0;
-    width: 300px;
+    width: 280px;
     height: 100vh;
-    background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
-    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(180deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.6);
     transform: translateX(100%);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .mobile-menu-overlay.active .mobile-menu-content {
@@ -240,33 +240,28 @@ body {
 .mobile-menu-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     padding: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 107, 53, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 107, 53, 0.05);
 }
 
 .mobile-menu-header .logo-img {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 5px;
-}
-
-.mobile-menu-header .tagline {
-    font-size: 0.7rem;
 }
 
 .mobile-menu-close {
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--light-text);
-    font-size: 2rem;
+    font-size: 1.5rem;
     cursor: pointer;
-    padding: 5px;
+    padding: 8px;
     border-radius: 50%;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     width: 40px;
     height: 40px;
     display: flex;
@@ -275,14 +270,16 @@ body {
 }
 
 .mobile-menu-close:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 107, 53, 0.15);
+    border-color: var(--primary-color);
     color: var(--primary-color);
+    transform: rotate(90deg);
 }
 
 /* ===== MOBILE NAVIGATION ===== */
 .mobile-nav {
     padding: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .mobile-nav-menu {
@@ -292,17 +289,17 @@ body {
 }
 
 .mobile-nav-menu li {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .mobile-nav-link {
     color: var(--light-text);
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
-    padding: 12px 16px;
-    border-radius: 8px;
-    transition: all 0.3s;
+    padding: 14px 18px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
     display: block;
     position: relative;
 }
@@ -311,37 +308,24 @@ body {
 .mobile-nav-link.active {
     background: rgba(255, 107, 53, 0.1);
     color: var(--primary-color);
-    padding-left: 24px;
-}
-
-.mobile-nav-link::before {
-    content: '→';
-    position: absolute;
-    left: 16px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.mobile-nav-link:hover::before,
-.mobile-nav-link.active::before {
-    opacity: 1;
+    transform: translateX(5px);
 }
 
 /* ===== MOBILE AUTH SECTION ===== */
 .mobile-auth-section {
     padding: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .mobile-auth-buttons,
 .mobile-user-menu {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .mobile-user-info {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .mobile-user-greeting {
@@ -353,8 +337,10 @@ body {
 .mobile-btn {
     width: 100%;
     text-align: center;
-    padding: 14px;
-    font-size: 1rem;
+    padding: 12px;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
 }
 
 /* ===== MOBILE CART SECTION ===== */
@@ -366,8 +352,23 @@ body {
 .mobile-cart-btn {
     width: 100%;
     justify-content: center;
-    padding: 16px;
-    font-size: 1.1rem;
+    padding: 14px;
+    font-size: 1rem;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    color: var(--light-text);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mobile-cart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
 }
 
 /* ===== DESKTOP ONLY ===== */
@@ -2237,16 +2238,18 @@ body {
 /* ===== SUCCESS MESSAGE ===== */
 .success-message {
     position: fixed;
-    top: -100px;
+    top: -150px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--success-color);
     color: var(--light-text);
-    padding: 20px 40px;
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     z-index: 4000;
-    transition: top 0.3s;
+    transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 400px;
+    width: 90%;
 }
 
 .success-message.active {
@@ -2255,20 +2258,57 @@ body {
 
 .success-content {
     display: flex;
-    align-items: center;
-    gap: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
 }
 
 .success-icon {
     background: var(--light-text);
     color: var(--success-color);
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
+    flex-shrink: 0;
+}
+
+.success-content p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--light-text);
+}
+
+.notification-cart-btn {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--success-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.notification-cart-btn:hover {
+    background: var(--light-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.notification-cart-btn:active {
+    transform: translateY(0);
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
