@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .product {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .cart {
+            border: 2px solid #333;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Cart Functionality</h1>
+    
+    <div class="products">
+        <h2>Products</h2>
+        <div class="product">
+            <h3>Classic Zippo Lighter (ID: 1)</h3>
+            <p>Price: $29.99</p>
+            <button onclick="addToCart(1)">Add to Cart</button>
+        </div>
+        <div class="product">
+            <h3>Torch Lighter Pro (ID: 2)</h3>
+            <p>Price: $39.99</p>
+            <button onclick="addToCart(2)">Add to Cart</button>
+        </div>
+        <div class="product">
+            <h3>Electric Arc Lighter (ID: 3)</h3>
+            <p>Price: $24.99</p>
+            <button onclick="addToCart(3)">Add to Cart</button>
+        </div>
+    </div>
+    
+    <div class="cart">
+        <h2>Cart</h2>
+        <div id="cartItems">
+            <p>Your cart is empty</p>
+        </div>
+        <div class="cart-total">
+            <strong>Total: $<span id="totalPrice">0.00</span></strong>
+        </div>
+        <button onclick="openCheckout()">Checkout</button>
+    </div>
+
+    <script>
+        // Product data
+        const products = [
+            {
+                id: 1,
+                name: "Classic Zippo Lighter",
+                category: "lighters",
+                price: 29.99,
+                description: "Iconic windproof lighter with lifetime guarantee",
+                emoji: "🔥"
+            },
+            {
+                id: 2,
+                name: "Torch Lighter Pro",
+                category: "lighters",
+                price: 39.99,
+                description: "Professional grade torch lighter with adjustable flame",
+                emoji: "🔥"
+            },
+            {
+                id: 3,
+                name: "Electric Arc Lighter",
+                category: "lighters",
+                price: 24.99,
+                description: "USB rechargeable plasma arc lighter",
+                emoji: "⚡"
+            }
+        ];
+
+        // Cart state
+        let cart = JSON.parse(localStorage.getItem('lighterPooaCart')) || [];
+
+        // DOM elements
+        const cartItems = document.getElementById('cartItems');
+        const totalPrice = document.getElementById('totalPrice');
+
+        // Add to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            saveCart();
+            updateCartUI();
+        }
+
+        // Update cart UI
+        function updateCartUI() {
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p>Your cart is empty</p>';
+                totalPrice.textContent = '0.00';
+                return;
+            }
+
+            // Ensure cart items have all necessary properties
+            const validatedCart = cart.map(item => {
+                const product = products.find(p => p.id === item.id);
+                if (product) {
+                    return {
+                        ...product,
+                        quantity: item.quantity
+                    };
+                }
+                return {
+                    ...item,
+                    name: item.name || 'Unidentified Product',
+                    price: item.price || 0,
+                    emoji: item.emoji || '📦'
+                };
+            });
+
+            cartItems.innerHTML = validatedCart.map(item => `
+                <div class="cart-item">
+                    <span>${item.emoji} ${item.name} x${item.quantity}</span>
+                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+            `).join('');
+
+            const total = validatedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            totalPrice.textContent = total.toFixed(2);
+        }
+
+        // Save cart
+        function saveCart() {
+            localStorage.setItem('lighterPooaCart', JSON.stringify(cart));
+        }
+
+        // Checkout
+        function openCheckout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            alert('Checkout function called. Cart contains ' + cart.length + ' items.');
+            console.log('Checkout data:', cart);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartUI();
+            console.log('Products:', products);
+            console.log('Cart:', cart);
+        });
+    </script>
+</body>
+</html>

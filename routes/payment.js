@@ -27,7 +27,7 @@ router.post('/initialize', authenticate, async (req, res) => {
             {
                 email,
                 amount: amountInCents,
-                currency: 'USD',
+                currency: 'KES',
                 metadata: {
                     userId: req.user._id,
                     orderData: JSON.stringify(orderData)
@@ -77,7 +77,7 @@ router.get('/verify/:reference', authenticate, async (req, res) => {
             data: {
                 status: paymentData.status,
                 reference: paymentData.reference,
-                amount: paymentData.amount / 100, // Convert from cents to dollars
+                amount: paymentData.amount / 100, // Convert from kobo to Naira
                 paidAt: paymentData.paid_at,
                 metadata: paymentData.metadata
             }

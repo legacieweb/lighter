@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Modal Test</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 2rem;
+        }
+        button {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 1rem;
+        }
+        button:hover {
+            background: #ff8c42;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active {
+            display: flex !important;
+        }
+        .modal-content {
+            width: 90%;
+            max-width: 600px;
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            color: #a0a0a0;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .close-modal:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minimal Modal Test</h1>
+    <button onclick="testModal()">Open Modal</button>
+
+    <div class="modal" id="testModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3>Order #12345</h3>
+                <p>Status: Delivered</p>
+                <p>Total: $99.99</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function testModal() {
+            console.log('testModal function called');
+            const modal = document.getElementById('testModal');
+            if (modal) {
+                modal.classList.add('active');
+                console.log('Modal class added');
+            } else {
+                console.error('Modal element not found');
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('testModal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        // Test if DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM is ready');
+        });
+
+        console.log('Script loaded');
+    </script>
+</body>
+</html>

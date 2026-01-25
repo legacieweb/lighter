@@ -12,6 +12,7 @@ const authRoutes = require('./routes/auth');
 const orderRoutes = require('./routes/orders');
 const userRoutes = require('./routes/users');
 const paymentRoutes = require('./routes/payment');
+const productRoutes = require('./routes/products');
 
 // Import middleware
 const { authenticate, isAdmin } = require('./middleware/auth');
@@ -32,6 +33,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/api/products', productRoutes);
 
 // Serve HTML pages
 app.get('/', (req, res) => {

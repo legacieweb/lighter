@@ -3,7 +3,7 @@
 // ============================================
 
 // API Base URL - Change this if your backend runs on a different port
-const API_BASE_URL = 'https://lighter-s6lv.onrender.com/api';
+const API_BASE_URL = 'http://localhost:5000/api';
 
 // Paystack Public Key (Replace with your actual public key)
 const PAYSTACK_PUBLIC_KEY = 'pk_test_232531a5c927ef2cc67ed1b85af3f26e3b8ed2f2';
@@ -27,9 +27,17 @@ const API_ENDPOINTS = {
     // Admin
     getAllOrders: `${API_BASE_URL}/orders/admin/all`,
     updateOrderStatus: (id) => `${API_BASE_URL}/orders/admin/${id}/status`,
+    deleteOrder: (id) => `${API_BASE_URL}/orders/admin/${id}`,
     getOrderStats: `${API_BASE_URL}/orders/admin/stats`,
     getAllUsers: `${API_BASE_URL}/users/admin/all`,
     getUserStats: `${API_BASE_URL}/users/admin/stats`,
+    
+    // Products
+    getAllProducts: `${API_BASE_URL}/products`,
+    createProduct: `${API_BASE_URL}/products`,
+    updateProduct: (id) => `${API_BASE_URL}/products/${id}`,
+    deleteProduct: (id) => `${API_BASE_URL}/products/${id}`,
+    seedProducts: `${API_BASE_URL}/products/seed`,
     
     // Payment
     initializePayment: `${API_BASE_URL}/payment/initialize`,

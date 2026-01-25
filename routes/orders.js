@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
 const { authenticate, isAdmin } = require('../middleware/auth');
-const { sendOrderConfirmationEmail, sendAdminOrderNotification } = require('../utils/email');
+const { sendOrderConfirmationEmail, sendAdminOrderNotification, sendOrderStatusUpdateEmail } = require('../utils/email');
 
 // Create new order
 router.post('/', authenticate, async (req, res) => {
@@ -136,7 +136,7 @@ router.put('/:orderId/payment', authenticate, async (req, res) => {
 router.get('/admin/all', authenticate, isAdmin, async (req, res) => {
     try {
         const orders = await Order.find()
-            .populate('userId', 'name email')
+            .populate('userId', 'firstName lastName name email')
             .sort({ createdAt: -1 });
 
         res.json({
@@ -169,6 +169,9 @@ router.put('/admin/:orderId/status', authenticate, isAdmin, async (req, res) => 
             });
         }
 
+        // Send status update email to customer
+        await sendOrderStatusUpdateEmail(order, order.shippingInfo.email);
+
         res.json({
             success: true,
             message: 'Order status updated',
@@ -178,6 +181,30 @@ router.put('/admin/:orderId/status', authenticate, isAdmin, async (req, res) => 
         res.status(500).json({ 
             success: false, 
             message: 'Failed to update order status' 
+        });
+    }
+});
+
+// Admin: Delete order
+router.delete('/admin/:orderId', authenticate, isAdmin, async (req, res) => {
+    try {
+        const order = await Order.findByIdAndDelete(req.params.orderId);
+
+        if (!order) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Order not found' 
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Order deleted successfully'
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to delete order' 
         });
     }
 });

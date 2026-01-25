@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard No Auth Test</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: #1a1a1a;
+            color: white;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .order-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 2rem;
+        }
+        .order-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 0;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .order-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        .order-card-image {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+        .order-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .order-card:hover .order-card-image img {
+            transform: scale(1.1);
+        }
+        .order-card-content {
+            padding: 20px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .order-number {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-pending { background: rgba(243, 156, 18, 0.2); color: #f39c12; }
+        .status-processing { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+        .status-shipped { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+        .status-delivered { background: rgba(26, 188, 156, 0.2); color: #1abc9c; }
+        .status-cancelled { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        .order-summary {
+            margin-bottom: 15px;
+        }
+        .order-date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .order-total {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h1>blazecity</h1>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="overview">
+                    <i class="fas fa-th-large"></i>
+                    <span>Overview</span>
+                </a>
+                <a href="#" class="nav-item" data-section="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="#" class="nav-item" data-section="orders">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Orders</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <button id="toggleSidebar" class="toggle-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="user-welcome">
+                    <span>Welcome back, <strong id="welcomeName">Test User</strong>!</span>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <section id="ordersSection" class="dashboard-section active">
+                    <div class="section-header">
+                        <h2 class="section-title">My Orders</h2>
+                    </div>
+                    <div class="order-grid" id="ordersContainer">
+                        <!-- Order cards will be added here -->
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div class="modal" id="orderDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <button class="close-modal" id="closeOrderDetails">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="orderDetailsContent">
+                    <!-- Order details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        <div class="success-content">
+            <span class="success-icon">✓</span>
+            <p id="successText">Success!</p>
+        </div>
+    </div>
+
+    <!-- Custom Toast Notification -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script>
+        let currentUser = { firstName: 'Test', lastName: 'User' };
+        let userOrders = [
+            {
+                _id: 'test-order-1',
+                orderNumber: '12345',
+                orderStatus: 'delivered',
+                createdAt: new Date().toISOString(),
+                totalAmount: 99.99,
+                items: [
+                    {
+                        _id: 'item1',
+                        productId: 'product1',
+                        name: 'Classic Zippo Lighter',
+                        quantity: 1,
+                        price: 39.99,
+                        image: 'https://via.placeholder.com/60',
+                        emoji: '🔥'
+                    },
+                    {
+                        _id: 'item2',
+                        productId: 'product2',
+                        name: 'Premium Butane Gas',
+                        quantity: 2,
+                        price: 29.99,
+                        image: 'https://via.placeholder.com/60',
+                        emoji: '⛽'
+                    }
+                ],
+                shippingInfo: {
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    email: 'john@example.com',
+                    phone: '123-456-7890',
+                    street: '123 Main St',
+                    city: 'New York',
+                    state: 'NY',
+                    zipCode: '10001'
+                },
+                paymentInfo: {
+                    method: 'Credit Card',
+                    reference: 'pay_' + Date.now(),
+                    status: 'success',
+                    paidAt: new Date().toISOString()
+                }
+            },
+            {
+                _id: 'test-order-2',
+                orderNumber: '54321',
+                orderStatus: 'shipped',
+                createdAt: new Date(Date.now() - 86400000).toISOString(),
+                totalAmount: 59.98,
+                items: [
+                    {
+                        _id: 'item3',
+                        productId: 'product3',
+                        name: 'Jet Flame Lighter',
+                        quantity: 2,
+                        price: 29.99,
+                        image: 'https://via.placeholder.com/60',
+                        emoji: '🔥'
+                    }
+                ],
+                shippingInfo: {
+                    firstName: 'Jane',
+                    lastName: 'Smith',
+                    email: 'jane@example.com',
+                    phone: '987-654-3210',
+                    street: '456 Oak St',
+                    city: 'Los Angeles',
+                    state: 'CA',
+                    zipCode: '90001'
+                },
+                paymentInfo: {
+                    method: 'PayPal',
+                    reference: 'pay_' + Date.now(),
+                    status: 'success',
+                    paidAt: new Date(Date.now() - 86400000).toISOString()
+                }
+            }
+        ];
+
+        function getAuthToken() {
+            return 'test-token';
+        }
+
+        function apiCall() {
+            return Promise.resolve({ success: true, user: currentUser });
+        }
+
+        function displayOrders(orders) {
+            const container = document.getElementById('ordersContainer');
+            
+            if (orders.length === 0) {
+                container.innerHTML = '<div class="empty-state"><p>No orders yet</p></div>';
+                return;
+            }
+
+            container.innerHTML = orders.map(order => {
+                const firstItem = order.items[0];
+                const displayImage = firstItem?.image || 'https://via.placeholder.com/150?text=No+Image';
+                
+                return `
+                    <div class="order-card" onclick="viewOrderDetails('${order._id}')">
+                        <div class="order-card-image">
+                            <img src="${displayImage}" alt="${firstItem?.name || 'Order'}">
+                        </div>
+                        <div class="order-card-content">
+                            <div class="card-header">
+                                <span class="order-number">#${order.orderNumber}</span>
+                                <span class="status-badge status-${order.orderStatus}">${order.orderStatus}</span>
+                            </div>
+                            <div class="order-summary">
+                                <p>${order.items.length} items</p>
+                                <p class="order-date">${new Date(order.createdAt).toLocaleDateString()}</p>
+                            </div>
+                            <div class="card-footer">
+                                <span class="order-total">$${order.totalAmount.toFixed(2)}</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showNotification(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = 'fa-check-circle';
+            if (type === 'error') icon = 'fa-exclamation-circle';
+            if (type === 'info') icon = 'fa-info-circle';
+
+            toast.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        function reorderItems(orderId) {
+            console.log('Reordering items from order', orderId);
+            showNotification('Added items to cart!');
+        }
+
+        function viewOrderDetails(orderId) {
+            console.log('viewOrderDetails called for:', orderId);
+            
+            try {
+                const modal = document.getElementById('orderDetailsModal');
+                const content = document.getElementById('orderDetailsContent');
+                
+                if (!modal || !content) {
+                    console.error('Modal elements not found');
+                    showNotification('Modal not found', 'error');
+                    return;
+                }
+                
+                console.log('Modal elements found');
+                
+                const order = userOrders.find(o => o._id === orderId);
+                
+                if (!order) {
+                    content.innerHTML = '<p>Order not found</p>';
+                } else {
+                    content.innerHTML = `
+                        <div class="order-details-modern">
+                            <h3>Order Details</h3>
+                            <p>Order Number: ${order.orderNumber}</p>
+                            <p>Status: ${order.orderStatus}</p>
+                            <p>Total: $${order.totalAmount.toFixed(2)}</p>
+                            <h4>Items:</h4>
+                            <ul>
+                                ${order.items.map(item => `
+                                    <li>${item.emoji} ${item.name} - $${item.price.toFixed(2)} x ${item.quantity}</li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                modal.classList.add('active');
+                modal.style.display = 'flex';
+                
+                console.log('Modal should be visible now');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Error: ' + error.message, 'error');
+            }
+        }
+
+        document.getElementById('closeOrderDetails').addEventListener('click', () => {
+            const modal = document.getElementById('orderDetailsModal');
+            modal.classList.remove('active');
+        });
+
+        document.getElementById('orderDetailsModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('orderDetailsModal')) {
+                const modal = document.getElementById('orderDetailsModal');
+                modal.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            displayOrders(userOrders);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+// Let me rewrite the openOrderModal function completely to include the delete button
+async function openOrderModal(orderId) {
+    const order = allOrders.find(o => o._id === orderId);
+    if (!order) {
+        console.error('Order not found:', orderId);
+        return;
+    }
+
+    const modal = document.getElementById('orderModal');
+    const modalBody = document.getElementById('orderModalBody');
+    
+    // Tracking steps
+    const statuses = ['pending', 'processing', 'shipped', 'delivered'];
+    const currentStatusIndex = statuses.indexOf(order.orderStatus);
+
+    modalBody.innerHTML = `
+        <div class="order-details-modern">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <div>
+                    <h3 style="color: var(--primary-color); font-family: 'Bebas Neue', cursive; font-size: 2.2rem; margin: 0;">#${order.orderNumber}</h3>
+                    <p style="color: var(--text-muted); margin: 5px 0 0;">Ordered on ${new Date(order.createdAt).toLocaleString()}</p>
+                </div>
+                <div class="status-control">
+                    <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px;">Update Status</label>
+                    <select class="status-selector" style="font-size: 1rem; padding: 10px 20px;" onchange="updateOrderStatusDirect('${order._id}', this.value)">
+                        <option value="pending" ${order.orderStatus === 'pending' ? 'selected' : ''}>Pending</option>
+                        <option value="processing" ${order.orderStatus === 'processing' ? 'selected' : ''}>Processing</option>
+                        <option value="shipped" ${order.orderStatus === 'shipped' ? 'selected' : ''}>Shipped</option>
+                        <option value="delivered" ${order.orderStatus === 'delivered' ? 'selected' : ''}>Delivered</option>
+                        <option value="cancelled" ${order.orderStatus === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="tracking-container" style="margin-bottom: 30px; padding: 25px; background: rgba(255,255,255,0.03); border-radius: 20px; border: 1px solid var(--glass-border);">
+                <div class="tracking-steps" style="display: flex; justify-content: space-between; position: relative;">
+                    ${statuses.map((s, index) => {
+                        const isActive = index <= currentStatusIndex;
+                        const isCompleted = index < currentStatusIndex;
+                        return `
+                            <div class="tracking-step ${isActive ? 'active' : ''}" style="display: flex; flex-direction: column; align-items: center; z-index: 1; flex: 1; position: relative;">
+                                <div class="step-icon" style="width: 40px; height: 40px; border-radius: 50%; background: ${isActive ? 'var(--primary-color)' : '#333'}; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 10px; border: 4px solid ${isActive ? 'rgba(255,107,53,0.3)' : 'transparent'};">
+                                    <i class="fas ${s === 'pending' ? 'fa-clock' : s === 'processing' ? 'fa-cog' : s === 'shipped' ? 'fa-truck' : 'fa-check'}"></i>
+                                </div>
+                                <span style="font-size: 0.8rem; font-weight: 600; color: ${isActive ? 'var(--text-main)' : 'var(--text-muted)'};">${s.charAt(0).toUpperCase() + s.slice(1)}</span>
+                                ${index < statuses.length - 1 ? `
+                                    <div class="step-line" style="position: absolute; top: 20px; left: calc(50% + 25px); width: calc(100% - 50px); height: 3px; background: ${isCompleted ? 'var(--primary-color)' : '#333'}; z-index: -1;"></div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+
+            <div class="items-list" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px;">
+                <h3 style="color: var(--text-main); font-size: 1.2rem; margin-bottom: 10px;">Order Items</h3>
+                ${order.items.map(item => `
+                    <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <img src="${item.image || 'https://via.placeholder.com/60'}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                        <div style="flex: 1;">
+                            <p style="color: var(--text-main); font-weight: 500; margin: 0;">${item.name}</p>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0;">Quantity: ${item.quantity} x Ksh ${item.price.toLocaleString()}</p>
+                        </div>
+                        <p style="color: var(--text-main); font-weight: 600;">Ksh ${(item.price * item.quantity).toLocaleString()}</p>
+                    </div>
+                `).join('')}
+                <div style="display: flex; justify-content: space-between; font-weight: 700; margin-top: 25px; color: var(--primary-color); font-size: 1.5rem; background: rgba(255,107,53,0.1); padding: 15px; border-radius: 12px;">
+                    <span>Total Amount</span>
+                    <span>Ksh ${order.totalAmount.toLocaleString()}</span>
+                </div>
+            </div>
+
+            <div class="actions" style="display: flex; gap: 15px;">
+                <button class="btn-danger" onclick="deleteOrder('${order._id}')" style="flex: 1;"><i class="fas fa-trash"></i> Delete Order</button>
+                <button class="btn-primary" onclick="window.print()" style="flex: 1;"><i class="fas fa-print"></i> Print Invoice</button>
+                <button class="btn-secondary" onclick="document.getElementById('orderModal').classList.remove('active')" style="flex: 1;">Close</button>
+            </div>
+        </div>
+    `;
+    
+    modal.classList.add('active');
+}

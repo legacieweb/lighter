@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex !important;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            color: black;
+            z-index: 2001;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #ff6b35;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        .btn-primary {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #e65a25;
+        }
+
+        .test-button {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: background 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .test-button:hover {
+            background: #e65a25;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <button class="test-button" onclick="testModal()">Test Modal</button>
+
+    <!-- Order Details Modal -->
+    <div class="modal" id="orderDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <button class="close-modal" id="closeOrderDetails">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="orderDetailsContent">
+                    <!-- Content will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function testModal() {
+            const orderDetails = {
+                _id: 'test-order-1',
+                orderNumber: '12345',
+                createdAt: new Date().toISOString(),
+                orderStatus: 'delivered',
+                totalAmount: 99.99,
+                items: [
+                    {
+                        name: 'Classic Zippo Lighter',
+                        image: 'https://via.placeholder.com/60',
+                        emoji: '🔥',
+                        quantity: 1,
+                        price: 39.99
+                    },
+                    {
+                        name: 'Premium Butane Gas',
+                        image: 'https://via.placeholder.com/60',
+                        emoji: '⛽',
+                        quantity: 2,
+                        price: 29.99
+                    }
+                ],
+                shippingInfo: {
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    street: '123 Main St',
+                    city: 'New York',
+                    state: 'NY',
+                    zipCode: '10001'
+                },
+                paymentInfo: {
+                    status: 'success',
+                    reference: 'pay_1769232141610',
+                    paidAt: new Date().toISOString()
+                }
+            };
+            
+            viewOrderDetails(orderDetails);
+        }
+
+        function viewOrderDetails(order) {
+            console.log('viewOrderDetails called for:', order._id);
+            
+            try {
+                const modal = document.getElementById('orderDetailsModal');
+                const content = document.getElementById('orderDetailsContent');
+                
+                if (!modal || !content) {
+                    console.error('Modal elements not found');
+                    return;
+                }
+                
+                console.log('Modal elements found');
+                
+                const statuses = ['pending', 'processing', 'shipped', 'delivered'];
+                const currentStatusIndex = statuses.indexOf(order.orderStatus);
+                
+                const detailsHTML = `
+                    <div class="order-details-modern">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                            <div>
+                                <p style="color: #666; font-size: 0.9rem;">Order Number</p>
+                                <h3 style="color: #ff6b35; font-family: 'Bebas Neue', cursive; font-size: 2rem;">#${order.orderNumber}</h3>
+                                <p style="color: #666; font-size: 0.8rem;">Ordered on ${new Date(order.createdAt).toLocaleDateString()}</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <span class="status-badge status-${order.orderStatus}" style="font-size: 1rem; padding: 8px 15px;">${order.orderStatus}</span>
+                                <div style="margin-top: 10px;">
+                                    <button class="btn-primary" onclick="reorderItems('${order._id}')" style="padding: 8px 15px; font-size: 0.9rem;">
+                                        <i class="fas fa-redo"></i> Re-order
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tracking Information -->
+                        <div class="tracking-container" style="margin-bottom: 30px; padding: 20px; background: rgba(0,0,0,0.03); border-radius: 15px;">
+                            <h4 style="margin-bottom: 20px; font-family: 'Bebas Neue', cursive; font-size: 1.5rem;">Track Order</h4>
+                            <div class="tracking-steps" style="display: flex; justify-content: space-between; position: relative;">
+                                ${statuses.map((s, index) => {
+                                    const isActive = index <= currentStatusIndex;
+                                    const isCompleted = index < currentStatusIndex;
+                                    return `
+                                        <div class="tracking-step ${isActive ? 'active' : ''}" style="display: flex; flex-direction: column; align-items: center; z-index: 1; flex: 1; position: relative;">
+                                            <div class="step-icon" style="width: 35px; height: 35px; border-radius: 50%; background: ${isActive ? '#ff6b35' : '#ccc'}; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 10px; border: 3px solid ${isActive ? 'rgba(255,107,53,0.3)' : 'transparent'};">
+                                                <i class="fas ${s === 'pending' ? 'fa-clock' : s === 'processing' ? 'fa-cog' : s === 'shipped' ? 'fa-truck' : 'fa-check'}"></i>
+                                            </div>
+                                            <span style="font-size: 0.75rem; color: ${isActive ? '#333' : '#999'}; text-transform: capitalize;">${s}</span>
+                                            ${index < statuses.length - 1 ? `
+                                                <div class="step-line" style="position: absolute; top: 17px; left: calc(50% + 20px); width: calc(100% - 40px); height: 2px; background: ${isCompleted ? '#ff6b35' : '#ccc'}; z-index: -1;"></div>
+                                            ` : ''}
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <div class="items-list" style="margin-bottom: 25px;">
+                            <h4 style="margin-bottom: 15px; font-family: 'Bebas Neue', cursive; font-size: 1.5rem;">Items</h4>
+                            <div style="display: flex; flex-direction: column; gap: 15px;">
+                                ${order.items.map(item => `
+                                    <div style="display: flex; align-items: center; gap: 15px; padding: 10px; background: rgba(0,0,0,0.02); border-radius: 10px;">
+                                        <img src="${item.image || 'https://via.placeholder.com/60'}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                        <div style="flex: 1;">
+                                            <h5 style="margin: 0; font-size: 1rem;">${item.name}</h5>
+                                            <p style="margin: 5px 0 0; color: #666; font-size: 0.85rem;">${item.emoji} Quantity: ${item.quantity}</p>
+                                        </div>
+                                        <div style="font-weight: 700; color: #ff6b35;">$${(item.price * item.quantity).toFixed(2)}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 20px; padding: 15px; background: rgba(255,107,53,0.1); border-radius: 10px; font-weight: 700;">
+                                <span>Total</span>
+                                <span style="font-size: 1.4rem; color: #ff6b35;">$${order.totalAmount.toFixed(2)}</span>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="shipping-info" style="padding: 15px; background: rgba(0,0,0,0.03); border-radius: 12px;">
+                                <h4 style="margin-bottom: 10px; font-family: 'Bebas Neue', cursive; font-size: 1.2rem;">Shipping Address</h4>
+                                <p style="margin: 0; font-weight: 600;">${order.shippingInfo.firstName} ${order.shippingInfo.lastName}</p>
+                                <p style="color: #666; font-size: 0.9rem; margin: 5px 0;">${order.shippingInfo.street}</p>
+                                <p style="color: #666; font-size: 0.9rem; margin: 0;">${order.shippingInfo.city}, ${order.shippingInfo.state} ${order.shippingInfo.zipCode}</p>
+                            </div>
+                            <div class="payment-info" style="padding: 15px; background: rgba(0,0,0,0.03); border-radius: 12px;">
+                                <h4 style="margin-bottom: 10px; font-family: 'Bebas Neue', cursive; font-size: 1.2rem;">Payment Info</h4>
+                                <p style="margin: 0; font-size: 0.9rem;"><strong>Status:</strong> <span style="color: #2ecc71; text-transform: capitalize;">${order.paymentInfo.status}</span></p>
+                                <p style="margin: 5px 0; font-size: 0.9rem; color: #666;"><strong>Ref:</strong> ${order.paymentInfo.reference}</p>
+                                <p style="margin: 0; font-size: 0.9rem; color: #666;"><strong>Paid on:</strong> ${order.paymentInfo.paidAt ? new Date(order.paymentInfo.paidAt).toLocaleDateString() : 'N/A'}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                console.log('Setting content.innerHTML:', detailsHTML);
+                content.innerHTML = detailsHTML;
+                
+                console.log('Adding active class to modal');
+                modal.classList.add('active');
+                modal.style.display = 'flex';
+                
+                console.log('Modal should be visible now');
+                
+            } catch (error) {
+                console.error('Error viewing order details:', error);
+            }
+        }
+
+        function reorderItems(orderId) {
+            console.log('Reordering items from order:', orderId);
+            alert('Items from order ' + orderId + ' have been added to cart!');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('orderDetailsModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('orderDetailsModal')) {
+                document.getElementById('orderDetailsModal').classList.remove('active');
+            }
+        });
+
+        // Close modal when clicking X button
+        document.getElementById('closeOrderDetails').addEventListener('click', () => {
+            document.getElementById('orderDetailsModal').classList.remove('active');
+        });
+    </script>
+</body>
+</html>

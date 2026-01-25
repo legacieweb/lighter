@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 2rem;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+        }
+        .open-btn {
+            background: blue;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .close-btn {
+            background: red;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button class="open-btn" onclick="openModal()">Open Modal</button>
+    
+    <div class="modal" id="testModal">
+        <div class="modal-content">
+            <h2>Modal Test</h2>
+            <p>This is a test modal. It should open when you click the button.</p>
+            <button class="close-btn" onclick="closeModal()">Close Modal</button>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            console.log('Opening modal');
+            const modal = document.getElementById('testModal');
+            if (modal) {
+                modal.classList.add('active');
+                console.log('Modal class added');
+            } else {
+                console.error('Modal not found');
+            }
+        }
+        
+        function closeModal() {
+            console.log('Closing modal');
+            const modal = document.getElementById('testModal');
+            if (modal) {
+                modal.classList.remove('active');
+                console.log('Modal class removed');
+            }
+        }
+        
+        // Test function
+        console.log('Page loaded');
+    </script>
+</body>
+</html>

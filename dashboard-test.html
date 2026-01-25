@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Modal Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <style>
+        body {
+            padding: 2rem;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .order-card {
+            cursor: pointer;
+            margin: 1rem 0;
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            transition: border-color 0.3s ease;
+        }
+        .order-card:hover {
+            border-color: var(--primary-color);
+        }
+        .order-card-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-pending { background: rgba(243, 156, 18, 0.2); color: #f39c12; }
+        .status-processing { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+        .status-shipped { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+        .status-delivered { background: rgba(26, 188, 156, 0.2); color: #1abc9c; }
+        .status-cancelled { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        .status-completed { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>Dashboard Modal Test</h1>
+            <p>Click on the order card below to test the modal functionality</p>
+        </div>
+        
+        <!-- Test Order Card -->
+        <div class="order-card" onclick="viewOrderDetails('test-order-1')">
+            <div class="order-card-content">
+                <div>
+                    <h3>Order #12345</h3>
+                    <p>2 items • $99.99 • Delivered</p>
+                </div>
+                <span class="status-badge status-delivered">Delivered</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div class="modal" id="orderDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <button class="close-modal" id="closeOrderDetails">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="orderDetailsContent">
+                    <!-- Order details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock data
+        const userOrders = [
+            {
+                _id: 'test-order-1',
+                orderNumber: '12345',
+                orderStatus: 'delivered',
+                createdAt: new Date().toISOString(),
+                totalAmount: 99.99,
+                items: [
+                    {
+                        _id: 'item1',
+                        productId: 'product1',
+                        name: 'Classic Zippo Lighter',
+                        quantity: 1,
+                        price: 39.99,
+                        image: 'https://via.placeholder.com/60',
+                        emoji: '🔥'
+                    },
+                    {
+                        _id: 'item2',
+                        productId: 'product2',
+                        name: 'Premium Butane Gas',
+                        quantity: 2,
+                        price: 29.99,
+                        image: 'https://via.placeholder.com/60',
+                        emoji: '⛽'
+                    }
+                ],
+                shippingInfo: {
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    email: 'john@example.com',
+                    phone: '123-456-7890',
+                    street: '123 Main St',
+                    city: 'New York',
+                    state: 'NY',
+                    zipCode: '10001'
+                },
+                paymentInfo: {
+                    method: 'Credit Card',
+                    reference: 'pay_' + Date.now(),
+                    status: 'success',
+                    paidAt: new Date().toISOString()
+                }
+            }
+        ];
+
+        function showNotification(message, type = 'success') {
+            alert(message);
+        }
+
+        function reorderItems(orderId) {
+            alert('Reordering items from order ' + orderId);
+        }
+
+        function viewOrderDetails(orderId) {
+            console.log('viewOrderDetails called for:', orderId);
+            
+            try {
+                const modal = document.getElementById('orderDetailsModal');
+                const content = document.getElementById('orderDetailsContent');
+                
+                if (!modal || !content) {
+                    console.error('Modal elements not found');
+                    showNotification('Modal not found', 'error');
+                    return;
+                }
+                
+                console.log('Modal elements found');
+                
+                // Find order
+                const order = userOrders.find(o => o._id === orderId);
+                
+                if (!order) {
+                    content.innerHTML = '<p>Order not found</p>';
+                } else {
+                    content.innerHTML = `
+                        <div class="order-details-modern">
+                            <h3>Order Details</h3>
+                            <p>Order Number: ${order.orderNumber}</p>
+                            <p>Status: ${order.orderStatus}</p>
+                            <p>Total: $${order.totalAmount.toFixed(2)}</p>
+                            <h4>Items:</h4>
+                            <ul>
+                                ${order.items.map(item => `
+                                    <li>${item.emoji} ${item.name} - $${item.price.toFixed(2)} x ${item.quantity}</li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                // Show modal
+                modal.classList.add('active');
+                modal.style.display = 'flex';
+                
+                console.log('Modal should be visible now');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Modal close functionality
+        document.getElementById('closeOrderDetails').addEventListener('click', () => {
+            const modal = document.getElementById('orderDetailsModal');
+            modal.classList.remove('active');
+            modal.style.display = 'none';
+        });
+
+        document.getElementById('orderDetailsModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('orderDetailsModal')) {
+                const modal = document.getElementById('orderDetailsModal');
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

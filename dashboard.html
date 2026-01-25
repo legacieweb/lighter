@@ -8,109 +8,216 @@
     <link rel="stylesheet" href="dashboard.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
     <!-- Background Video -->
     <video class="background-video" autoplay muted loop playsinline>
         <source src="flames.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <a href="/" style="text-decoration: none; color: inherit;">
-                    <h1>🔥 LIGHTER POOA</h1>
-                    <p class="tagline">Premium Smoking Experience</p>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h1>blazecity</h1>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="overview">
+                    <i class="fas fa-th-large"></i>
+                    <span>Overview</span>
                 </a>
-            </div>
-            <div class="header-actions">
-                <button class="btn-auth btn-home" onclick="window.location.href='index.html'">Home</button>
-                <button class="btn-auth btn-logout" id="logoutBtn">Logout</button>
-            </div>
-        </div>
-    </header>
+                <a href="#" class="nav-item" data-section="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="#" class="nav-item" data-section="orders">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="#" class="nav-item" data-section="inbox">
+                    <i class="fas fa-envelope"></i>
+                    <span>Inbox</span>
+                    <span class="badge" id="inboxBadge">2</span>
+                </a>
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Shop Home</span>
+                </a>
+            </nav>
 
-    <!-- Dashboard Content -->
-    <div class="dashboard-container">
-        <div class="container">
-            <h1 class="dashboard-title">My Dashboard</h1>
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
 
-            <!-- User Info Section -->
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2>Profile Information</h2>
-                    <button class="btn-edit" id="editProfileBtn">Edit Profile</button>
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <button id="toggleSidebar" class="toggle-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="user-welcome">
+                    <span>Welcome back, <strong id="welcomeName">User</strong>!</span>
                 </div>
-                <div class="profile-card">
-                    <div class="profile-info">
-                        <div class="info-item">
-                            <span class="info-label">First Name:</span>
-                            <span class="info-value" id="userFirstName">Loading...</span>
-                            <input type="text" class="info-input" id="editUserFirstName" placeholder="Enter your first name" style="display: none;">
+            </header>
+
+            <div class="content-body">
+                <!-- Overview Section -->
+                <section id="overviewSection" class="dashboard-section active">
+                    <h2 class="section-title">Dashboard Overview</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-box"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Orders</span>
+                                <span class="stat-value" id="statOrders">0</span>
+                            </div>
                         </div>
-                        <div class="info-item">
-                            <span class="info-label">Last Name:</span>
-                            <span class="info-value" id="userLastName">Loading...</span>
-                            <input type="text" class="info-input" id="editUserLastName" placeholder="Enter your last name" style="display: none;">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Messages</span>
+                                <span class="stat-value" id="statInbox">0</span>
+                            </div>
                         </div>
-                        <div class="info-item">
-                            <span class="info-label">Email:</span>
-                            <span class="info-value" id="userEmail">Loading...</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Phone:</span>
-                            <span class="info-value" id="userPhone">Not set</span>
-                            <input type="tel" class="info-input" id="editUserPhone" placeholder="Enter your phone number" style="display: none;">
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Street Address:</span>
-                            <span class="info-value" id="userStreet">Not set</span>
-                            <input type="text" class="info-input" id="editUserStreet" placeholder="Enter your street address" style="display: none;">
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">City:</span>
-                            <span class="info-value" id="userCity">Not set</span>
-                            <input type="text" class="info-input" id="editUserCity" placeholder="Enter your city" style="display: none;">
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">State:</span>
-                            <span class="info-value" id="userState">Not set</span>
-                            <input type="text" class="info-input" id="editUserState" placeholder="Enter your state/province" style="display: none;">
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">ZIP Code:</span>
-                            <span class="info-value" id="userZipCode">Not set</span>
-                            <input type="text" class="info-input" id="editUserZipCode" style="display: none;">
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Member Since:</span>
-                            <span class="info-value" id="memberSince">Loading...</span>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Pending Orders</span>
+                                <span class="stat-value" id="statPending">0</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Edit Actions (shown when editing) -->
-                    <div class="edit-actions" id="editActions" style="display: none;">
-                        <button class="btn-edit btn-save" id="saveProfileBtn">Save Changes</button>
-                        <button class="btn-edit btn-cancel" id="cancelEditBtn">Cancel</button>
+                    <div class="recent-grid">
+                        <div class="recent-orders glass-card">
+                            <div class="card-header">
+                                <h3>Recent Orders</h3>
+                                <a href="#" class="view-all" onclick="navigateToSection('orders')">View All</a>
+                            </div>
+                            <div id="recentOrdersList" class="compact-list">
+                                <p class="loading-text">Loading...</p>
+                            </div>
+                        </div>
+                        <div class="promo-card glass-card">
+                            <h3>Special Offer</h3>
+                            <p>Get 20% off on your next purchase with code <strong>POOA20</strong></p>
+                            <button class="btn-primary" onclick="window.location.href='index.html'">Shop Now</button>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </section>
 
-            <!-- Orders Section -->
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2>My Orders</h2>
-                </div>
-                <div class="orders-container" id="ordersContainer">
-                    <p class="loading-text">Loading orders...</p>
-                </div>
+                <!-- Profile Section -->
+                <section id="profileSection" class="dashboard-section">
+                    <h2 class="section-title">My Profile</h2>
+                    <div class="profile-layout">
+                        <div class="profile-card glass-card">
+                            <div class="profile-header">
+                                <div class="profile-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <div class="profile-title">
+                                    <h3 id="profileFullName">Loading...</h3>
+                                    <p id="profileEmail">Loading...</p>
+                                </div>
+                                <button class="btn-outline" id="editProfileBtn">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                            </div>
+                            
+                            <div class="profile-details">
+                                <div class="detail-group">
+                                    <label>First Name</label>
+                                    <p id="userFirstName">Loading...</p>
+                                    <input type="text" id="editUserFirstName" class="form-control" style="display: none;">
+                                </div>
+                                <div class="detail-group">
+                                    <label>Last Name</label>
+                                    <p id="userLastName">Loading...</p>
+                                    <input type="text" id="editUserLastName" class="form-control" style="display: none;">
+                                </div>
+                                <div class="detail-group">
+                                    <label>Phone Number</label>
+                                    <p id="userPhone">Not set</p>
+                                    <input type="tel" id="editUserPhone" class="form-control" style="display: none;">
+                                </div>
+                                <div class="detail-group full-width">
+                                    <label>Street Address</label>
+                                    <p id="userStreet">Not set</p>
+                                    <input type="text" id="editUserStreet" class="form-control" style="display: none;">
+                                </div>
+                                <div class="detail-group">
+                                    <label>City</label>
+                                    <p id="userCity">Not set</p>
+                                    <input type="text" id="editUserCity" class="form-control" style="display: none;">
+                                </div>
+                                <div class="detail-group">
+                                    <label>State/Province</label>
+                                    <p id="userState">Not set</p>
+                                    <input type="text" id="editUserState" class="form-control" style="display: none;">
+                                </div>
+                                <div class="detail-group">
+                                    <label>ZIP Code</label>
+                                    <p id="userZipCode">Not set</p>
+                                    <input type="text" id="editUserZipCode" class="form-control" style="display: none;">
+                                </div>
+                            </div>
+
+                            <div class="edit-actions" id="editActions" style="display: none;">
+                                <button class="btn-primary" id="saveProfileBtn">Save Changes</button>
+                                <button class="btn-secondary" id="cancelEditBtn">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Orders Section -->
+                <section id="ordersSection" class="dashboard-section">
+                    <div class="section-header">
+                        <h2 class="section-title">My Orders</h2>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="orderSearch" placeholder="Search by order #...">
+                        </div>
+                    </div>
+                    <div class="orders-grid" id="ordersContainer">
+                        <p class="loading-text">Loading orders...</p>
+                    </div>
+                </section>
+
+                <!-- Inbox Section -->
+                <section id="inboxSection" class="dashboard-section">
+                    <h2 class="section-title">Inbox Messages</h2>
+                    <div class="notifications-list" id="inboxList">
+                        <div class="notification-item unread">
+                            <div class="notif-icon"><i class="fas fa-gift"></i></div>
+                            <div class="notif-content">
+                                <p>Welcome to Lighter Pooa! Use code <strong>NEW10</strong> for 10% off.</p>
+                                <span class="notif-time">Just now</span>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notif-icon"><i class="fas fa-info-circle"></i></div>
+                            <div class="notif-content">
+                                <p>Your profile was successfully updated.</p>
+                                <span class="notif-time">2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-        </div>
+        </main>
     </div>
-
 
     <!-- Order Details Modal -->
     <div class="modal" id="orderDetailsModal">
@@ -121,11 +228,96 @@
             </div>
             <div class="modal-body">
                 <div id="orderDetailsContent">
-                    <!-- Order details will be loaded here -->
+                    <!-- Test order details -->
+                    <div class="order-details-modern">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <div>
+                                <p style="color: #a0a0a0; font-size: 0.9rem;">Order Number</p>
+                                <h3 style="color: #ff6b35; font-family: 'Bebas Neue', cursive; font-size: 2rem;">#123456</h3>
+                                <p style="color: #a0a0a0; font-size: 0.8rem;">Ordered on Jan 23, 2026</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <span class="status-badge status-delivered" style="font-size: 1rem; padding: 8px 15px;">Delivered</span>
+                                <div style="margin-top: 10px;">
+                                    <button class="btn-primary" onclick="reorderItems('test-order-id')" style="padding: 8px 15px; font-size: 0.9rem;">
+                                        <i class="fas fa-redo"></i> Re-order
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tracking Information -->
+                        <div class="tracking-container" style="margin-bottom: 30px; padding: 20px; background: rgba(255,255,255,0.03); border-radius: 15px;">
+                            <h4 style="margin-bottom: 20px; font-family: 'Bebas Neue', cursive; font-size: 1.5rem;">Track Order</h4>
+                            <div class="tracking-steps" style="display: flex; justify-content: space-between; position: relative;">
+                                <div class="tracking-step active" style="display: flex; flex-direction: column; align-items: center; z-index: 1; flex: 1; position: relative;">
+                                    <div class="step-icon" style="width: 35px; height: 35px; border-radius: 50%; background: #ff6b35; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 10px; border: 3px solid rgba(255,107,53,0.3);">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: #ffffff;">Pending</span>
+                                    <div class="step-line" style="position: absolute; top: 17px; left: calc(50% + 20px); width: calc(100% - 40px); height: 2px; background: #ff6b35; z-index: -1;"></div>
+                                </div>
+                                <div class="tracking-step active" style="display: flex; flex-direction: column; align-items: center; z-index: 1; flex: 1; position: relative;">
+                                    <div class="step-icon" style="width: 35px; height: 35px; border-radius: 50%; background: #ff6b35; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 10px; border: 3px solid rgba(255,107,53,0.3);">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: #ffffff;">Processing</span>
+                                    <div class="step-line" style="position: absolute; top: 17px; left: calc(50% + 20px); width: calc(100% - 40px); height: 2px; background: #ff6b35; z-index: -1;"></div>
+                                </div>
+                                <div class="tracking-step active" style="display: flex; flex-direction: column; align-items: center; z-index: 1; flex: 1; position: relative;">
+                                    <div class="step-icon" style="width: 35px; height: 35px; border-radius: 50%; background: #ff6b35; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 10px; border: 3px solid rgba(255,107,53,0.3);">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: #ffffff;">Shipped</span>
+                                    <div class="step-line" style="position: absolute; top: 17px; left: calc(50% + 20px); width: calc(100% - 40px); height: 2px; background: #ff6b35; z-index: -1;"></div>
+                                </div>
+                                <div class="tracking-step active" style="display: flex; flex-direction: column; align-items: center; z-index: 1; flex: 1; position: relative;">
+                                    <div class="step-icon" style="width: 35px; height: 35px; border-radius: 50%; background: #ff6b35; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 10px; border: 3px solid rgba(255,107,53,0.3);">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: #ffffff;">Delivered</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="items-list" style="margin-bottom: 25px;">
+                            <h4 style="margin-bottom: 15px; font-family: 'Bebas Neue', cursive; font-size: 1.5rem;">Items</h4>
+                            <div style="display: flex; flex-direction: column; gap: 15px;">
+                                <div style="display: flex; align-items: center; gap: 15px; padding: 10px; background: rgba(255,255,255,0.02); border-radius: 10px;">
+                                    <img src="https://via.placeholder.com/60" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                    <div style="flex: 1;">
+                                        <h5 style="margin: 0; font-size: 1rem;">Classic Zippo Lighter</h5>
+                                        <p style="margin: 5px 0 0; color: #a0a0a0; font-size: 0.85rem;">🔥 Quantity: 2</p>
+                                    </div>
+                                    <div style="font-weight: 700; color: #ff6b35;">$59.98</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 20px; padding: 15px; background: rgba(255,107,53,0.1); border-radius: 10px; font-weight: 700;">
+                                <span>Total</span>
+                                <span style="font-size: 1.4rem; color: #ff6b35;">$59.98</span>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="shipping-info" style="padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                                <h4 style="margin-bottom: 10px; font-family: 'Bebas Neue', cursive; font-size: 1.2rem;">Shipping Address</h4>
+                                <p style="margin: 0; font-weight: 600;">John Doe</p>
+                                <p style="color: #a0a0a0; font-size: 0.9rem; margin: 5px 0;">123 Main St</p>
+                                <p style="color: #a0a0a0; font-size: 0.9rem; margin: 0;">New York, NY 10001</p>
+                            </div>
+                            <div class="payment-info" style="padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                                <h4 style="margin-bottom: 10px; font-family: 'Bebas Neue', cursive; font-size: 1.2rem;">Payment Info</h4>
+                                <p style="margin: 0; font-size: 0.9rem;"><strong>Status:</strong> <span style="color: #2ecc71;">Success</span></p>
+                                <p style="margin: 5px 0; font-size: 0.9rem; color: #a0a0a0;"><strong>Ref:</strong> pay_123456</p>
+                                <p style="margin: 0; font-size: 0.9rem; color: #a0a0a0;"><strong>Paid on:</strong> Jan 23, 2026</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
@@ -137,6 +329,10 @@
             <p id="successText">Success!</p>
         </div>
     </div>
+
+    <!-- Custom Toast Notification -->
+    <div id="toastContainer" class="toast-container"></div>
+
 
     <script src="config.js"></script>
     <script src="dashboard.js"></script>

@@ -4,109 +4,121 @@ const products = [
         id: 1,
         name: "Classic Zippo Lighter",
         category: "lighters",
-        price: 29.99,
+        price: 3899,
         description: "Iconic windproof lighter with lifetime guarantee",
         images: ["https://www.hansonellis.com/mm5/graphics/00000001/engraved-silver-polished-classic-zippo-lighter.jpg", "https://www.zippo.com/cdn/shop/products/zau89ndsgta0yvs3nprh.jpg?v=1744725583&width=1445", "https://assets.katogroup.eu/i/katogroup/ZP250-023085_01_zippo"],
-        video: "flames.mp4"
+        video: "flames.mp4",
+        emoji: "🔥"
     },
     {
         id: 2,
         name: "Torch Lighter Pro",
         category: "lighters",
-        price: 39.99,
+        price: 5199,
         description: "Professional grade torch lighter with adjustable flame",
         images: ["https://www.greenlion.net/web/image/315624-38c1bc5d/Green%20Lion%20Jet%20Flame%20Pro%20Windproof%20Lighter%20-%20Black%20%282%29.webp", "https://sc04.alicdn.com/kf/H406dd289a52a4ba2b8a62ce58fd9a2fbv.jpg"],
-        video: "flames.mp4"
+        video: "flames.mp4",
+        emoji: "🔥"
     },
     {
         id: 3,
         name: "Electric Arc Lighter",
         category: "lighters",
-        price: 24.99,
+        price: 3249,
         description: "USB rechargeable plasma arc lighter",
         images: ["https://m.media-amazon.com/images/I/519Yri1MxPL._UF1000,1000_QL80_.jpg", "https://m.media-amazon.com/images/I/61QTYr-g2HL.jpg"],
-        video: "flames.mp4"
+        video: "flames.mp4",
+        emoji: "⚡"
     },
     {
         id: 4,
         name: "Premium Rolling Papers",
         category: "accessories",
-        price: 4.99,
+        price: 649,
         description: "Ultra-thin slow-burn rolling papers (50 pack)",
         images: ["https://image.made-in-china.com/202f0j00cNzQCRpaaZrK/14GSM-Make-Your-Own-Brand-Classic-Type-Unbleached-Cigarette-Rolling-Paper-with-Filter-Tips-Package.webp", "https://image.made-in-china.com/202f0j00aosiNztnEOkI/Premium-Cigarette-Rolling-Papers-with-Tips-single-1-1-4-kingslim-size-.webp"],
-        video: "flames.mp4"
+        video: "flames.mp4",
+        emoji: "📄"
     },
     {
         id: 5,
         name: "Grinder Deluxe",
         category: "accessories",
-        price: 19.99,
+        price: 2599,
         description: "4-piece aluminum grinder with pollen catcher",
         images: ["https://powerhouseexpress.com.pk/cdn/shop/files/anex-ag-639-deluxe-grinder-1.webp?v=1747308208&width=1445", "https://nazarjanssupermarket.com/cdn/shop/files/anex-deluxe-grinder-ag-632-nazar-jan-s-supermarket-2.jpg?v=1715281294"],
-        video: "flames.mp4"
+        video: "flames.mp4",
+        emoji: "⚙️"
     },
     {
         id: 6,
         name: "Glass Ashtray",
         category: "accessories",
-        price: 14.99,
+        price: 1949,
         description: "Heavy-duty crystal glass ashtray",
         images: ["https://m.media-amazon.com/images/I/51xIA3As5ZL._UF1000,1000_QL80_.jpg", "https://m.media-amazon.com/images/I/61XiEbe55sL._UF1000,1000_QL80_.jpg"],
-        video: "flames.mp4"
+        video: "flames.mp4",
+        emoji: "🚬"
     },
     {
         id: 7,
         name: "Portable Vaporizer",
         category: "gadgets",
-        price: 89.99,
+        price: 11699,
         description: "Compact dry herb vaporizer with temperature control",
         images: ["https://www.vapor.com/cdn/shop/files/9284486_ef9b251a-d168-42dd-b53c-cc4a67a2f938.png?v=1689910145&width=533", "https://cdn.shopify.com/s/files/1/0083/3817/8111/collections/shop-portable-vaporizers.jpg?v=1739396445"],
-        video: "flames.mp4"
+        video: "flames.mp4",
+        emoji: "💨"
     },
     {
         id: 8,
         name: "LED Lighter Display",
         category: "gadgets",
-        price: 34.99,
+        price: 4549,
         description: "Rechargeable lighter with LED display",
         images: ["https://www.awelled.com/wp-content/uploads/sites/8/2021/10/LED-Revolving-Ligh-for-jewelry-display-t-AW-RL1120-3-smaller-600x600.jpg", "https://i.ytimg.com/vi/VFALE_lYEyQ/sddefault.jpg"],
-        video: "flames.mp4"
+        video: "flames.mp4",
+        emoji: "💡"
     },
     {
         id: 9,
         name: "Smoking Pipe Set",
         category: "accessories",
-        price: 44.99,
+        price: 5849,
         description: "Premium wooden pipe with cleaning kit",
         images: ["https://i.ebayimg.com/images/g/TDYAAOSw3EFjQZ4i/s-l1200.png", "https://i.ebayimg.com/images/g/lj4AAeSwbaln~Pl4/s-l1200.jpg"],
-        video: "flames.mp4"
+        video: "flames.mp4",
+        emoji: " 🚬"
     },
     {
         id: 10,
         name: "Butane Refill Pack",
         category: "accessories",
-        price: 12.99,
+        price: 1689,
         description: "Premium butane fuel (3 pack)",
         images: ["https://image.made-in-china.com/2f0j00fsVhJtdnZTGl/150ml-Butane-Gas-Can-96-Pack-Universal-Gas-Lighter-Refill-Can-Refillable-Butane-Gas.webp", "https://images-na.ssl-images-amazon.com/images/I/81tnULKtwpL._AC_UL495_SR435,495_.jpg"],
-        video: "flames.mp4"
+        video: "flames.mp4",
+        emoji: "⛽"
     },
     {
         id: 11,
         name: "Gold Plated Lighter",
         category: "lighters",
-        price: 79.99,
+        price: 10399,
         description: "Luxury gold-plated lighter with engraving",
         images: ["https://i.redd.it/q36ksr30m27c1.jpeg", "https://lightersdirect.com/cdn/shop/files/DU24RRR5101710TU-3_1400x.jpg?v=1708963033"],
-        video: "flames.mp4"
+        video: "flames.mp4",
+        emoji: "✨"
     },
     {
         id: 12,
         name: "Smart Lighter Case",
         category: "gadgets",
-        price: 29.99,
+        price: 3899,
         description: "Protective case with built-in tracker",
         images: ["https://img.drz.lazcdn.com/static/bd/p/d6383feb5b2ac5ab19f157159d61c405.jpg_720x720q80.jpg", "https://m.media-amazon.com/images/I/51jV7M4vUIL.jpg"],
-        video: "flames.mp4"
+        video: "flames.mp4",
+        emoji: "📱"
     }
 ];
 
@@ -155,6 +167,32 @@ document.addEventListener('DOMContentLoaded', () => {
     setupSmoothScroll();
     hydrateButtonStates();
     updateAuthUI();
+    
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', logout);
+    }
+
+    // Initialize video playback
+    initializeVideoPlayback();
+
+    // Header scroll behavior
+    let lastScrollTop = 0;
+    const header = document.querySelector('.header');
+
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // Scrolling down
+            header.classList.add('hidden');
+        } else {
+            // Scrolling up or at top
+            header.classList.remove('hidden');
+        }
+
+        lastScrollTop = scrollTop;
+    });
 });
 
 function hydrateButtonStates() {
@@ -209,7 +247,7 @@ function renderProducts(filter) {
                 <h3 class="product-name">${product.name}</h3>
                 <p class="product-description">${product.description}</p>
                 <div class="product-footer">
-                    <span class="product-price">$${product.price.toFixed(2)}</span>
+                    <span class="product-price">Ksh ${product.price.toLocaleString()}</span>
                     <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
                         Add to Cart
                     </button>
@@ -263,16 +301,37 @@ function updateCartUI() {
 
     if (cart.length === 0) {
         cartItems.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
-        totalPrice.textContent = '$0.00';
+        totalPrice.textContent = 'Ksh 0';
         return;
     }
 
-    cartItems.innerHTML = cart.map(item => `
+    // Ensure cart items have all necessary properties by matching with products array
+    const validatedCart = cart.map(item => {
+        const product = products.find(p => p.id === item.id);
+        if (product) {
+            // If product is found, merge with cart item (preserve quantity)
+            return {
+                ...product,
+                quantity: item.quantity
+            };
+        }
+        // If product not found, keep the item but set defaults
+        return {
+            ...item,
+            name: item.name || 'Unidentified Product',
+            price: item.price || 0,
+            emoji: item.emoji || '📦'
+        };
+    });
+
+    cartItems.innerHTML = validatedCart.map(item => `
         <div class="cart-item">
-            <div class="cart-item-image">${item.emoji}</div>
+            <div class="cart-item-image">
+                <img src="${item.images && item.images[0] ? item.images[0] : 'https://via.placeholder.com/80?text=No+Image'}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+            </div>
             <div class="cart-item-info">
                 <div class="cart-item-name">${item.name}</div>
-                <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                <div class="cart-item-price">Ksh ${item.price.toLocaleString()}</div>
                 <div class="cart-item-controls">
                     <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
                     <span class="cart-item-quantity">${item.quantity}</span>
@@ -283,8 +342,8 @@ function updateCartUI() {
         </div>
     `).join('');
 
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    totalPrice.textContent = `$${total.toFixed(2)}`;
+    const total = validatedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    totalPrice.textContent = `Ksh ${total.toLocaleString()}`;
 }
 
 // ===== UPDATE QUANTITY =====
@@ -376,7 +435,8 @@ checkoutForm.addEventListener('submit', async (e) => {
             name: item.name,
             price: item.price,
             quantity: item.quantity,
-            emoji: item.emoji
+            image: item.images && item.images[0] ? item.images[0] : 'https://via.placeholder.com/150?text=No+Image',
+            emoji: item.emoji || '📦'
         })),
         totalAmount: total,
         shippingInfo: shippingInfo
@@ -812,14 +872,5 @@ function playProductVideo(productId, videoUrl) {
     carousel.appendChild(closeBtn);
 }
 
-// ===== SETUP LOGOUT EVENT =====
-document.addEventListener('DOMContentLoaded', () => {
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', logout);
-    }
 
-    // Initialize video playback
-    initializeVideoPlayback();
-});
 

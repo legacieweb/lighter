@@ -15,12 +15,13 @@ async function sendOrderConfirmationEmail(order, userEmail) {
         const itemsHtml = order.items.map(item => `
             <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                    <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 10px; vertical-align: middle;">
                     <span style="font-size: 20px; margin-right: 10px;">${item.emoji}</span>
                     ${item.name}
                 </td>
                 <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: center;">${item.quantity}</td>
-                <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">$${item.price.toFixed(2)}</td>
-                <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">$${(item.price * item.quantity).toFixed(2)}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">Ksh ${item.price.toLocaleString()}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">Ksh ${(item.price * item.quantity).toLocaleString()}</td>
             </tr>
         `).join('');
 
@@ -31,7 +32,7 @@ async function sendOrderConfirmationEmail(order, userEmail) {
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                     <div style="background: linear-gradient(135deg, #ff6b35, #ffb347); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-                        <h1 style="color: white; margin: 0; font-size: 28px;">🔥 Lighter Pooa</h1>
+                        <h1 style="color: white; margin: 0; font-size: 28px;">Blaze city</h1>
                         <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">Order Confirmation</p>
                     </div>
 
@@ -58,7 +59,7 @@ async function sendOrderConfirmationEmail(order, userEmail) {
                                 ${itemsHtml}
                                 <tr style="background: #f8f9fa; font-weight: bold;">
                                     <td colspan="3" style="padding: 15px; text-align: right; border-top: 2px solid #dee2e6;">Total Amount:</td>
-                                    <td style="padding: 15px; text-align: right; border-top: 2px solid #dee2e6; color: #ff6b35; font-size: 18px;">$${order.totalAmount.toFixed(2)}</td>
+                                    <td style="padding: 15px; text-align: right; border-top: 2px solid #dee2e6; color: #ff6b35; font-size: 18px;">Ksh ${order.totalAmount.toLocaleString()}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -82,7 +83,7 @@ async function sendOrderConfirmationEmail(order, userEmail) {
 
                         <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
                             <p style="color: #666; margin: 0;">
-                                Questions? Contact us at <a href="mailto:info@lighterpooa.com" style="color: #ff6b35;">info@lighterpooa.com</a>
+                                Questions? Contact us at <a href="mailto:info@Blazecity.com" style="color: #ff6b35;">info@Blazecity.com</a>
                             </p>
                         </div>
                     </div>
@@ -103,12 +104,13 @@ async function sendAdminOrderNotification(order) {
         const itemsHtml = order.items.map(item => `
             <tr>
                 <td style="padding: 8px; border-bottom: 1px solid #eee;">
+                    <img src="${item.image}" alt="${item.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px; margin-right: 8px; vertical-align: middle;">
                     <span style="font-size: 16px; margin-right: 8px;">${item.emoji}</span>
                     ${item.name}
                 </td>
                 <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: center;">${item.quantity}</td>
-                <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">$${item.price.toFixed(2)}</td>
-                <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">$${(item.price * item.quantity).toFixed(2)}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">Ksh ${item.price.toLocaleString()}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">Ksh ${(item.price * item.quantity).toLocaleString()}</td>
             </tr>
         `).join('');
 
@@ -120,7 +122,7 @@ async function sendAdminOrderNotification(order) {
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                     <div style="background: linear-gradient(135deg, #ff6b35, #ffb347); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
                         <h1 style="color: white; margin: 0; font-size: 28px;">🔥 New Order Alert</h1>
-                        <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">Lighter Pooa Admin</p>
+                        <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">Blaze city Admin</p>
                     </div>
 
                     <div style="padding: 30px; background: white; border-radius: 0 0 10px 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
@@ -149,7 +151,7 @@ async function sendAdminOrderNotification(order) {
                                 ${itemsHtml}
                                 <tr style="background: #f8f9fa; font-weight: bold;">
                                     <td colspan="3" style="padding: 15px; text-align: right; border-top: 2px solid #dee2e6;">Total Amount:</td>
-                                    <td style="padding: 15px; text-align: right; border-top: 2px solid #dee2e6; color: #ff6b35; font-size: 18px;">$${order.totalAmount.toFixed(2)}</td>
+                                    <td style="padding: 15px; text-align: right; border-top: 2px solid #dee2e6; color: #ff6b35; font-size: 18px;">Ksh ${order.totalAmount.toLocaleString()}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -180,7 +182,91 @@ async function sendAdminOrderNotification(order) {
     }
 }
 
+// Send order status update email to customer
+async function sendOrderStatusUpdateEmail(order, userEmail) {
+    try {
+        const statusColors = {
+            pending: '#ff9800',
+            processing: '#2196f3',
+            shipped: '#ffc107',
+            delivered: '#4caf50',
+            cancelled: '#f44336'
+        };
+
+        const statusText = {
+            pending: 'Pending',
+            processing: 'Processing',
+            shipped: 'Shipped',
+            delivered: 'Delivered',
+            cancelled: 'Cancelled'
+        };
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: userEmail,
+            subject: `Order Status Updated - ${order.orderNumber}`,
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <div style="background: linear-gradient(135deg, #ff6b35, #ffb347); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+                        <h1 style="color: white; margin: 0; font-size: 28px;">Blaze city</h1>
+                        <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">Order Status Update</p>
+                    </div>
+
+                    <div style="padding: 30px; background: white; border-radius: 0 0 10px 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                        <h2 style="color: #333; margin-bottom: 20px;">Your order status has been updated!</h2>
+
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                            <h3 style="margin: 0 0 15px 0; color: #ff6b35;">Order Details</h3>
+                            <p style="margin: 5px 0;"><strong>Order Number:</strong> ${order.orderNumber}</p>
+                            <p style="margin: 5px 0;"><strong>Order Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
+                            <p style="margin: 5px 0;"><strong>New Status:</strong> <span style="color: ${statusColors[order.orderStatus]}; font-weight: bold;">${statusText[order.orderStatus]}</span></p>
+                        </div>
+
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                            <h3 style="margin: 0 0 15px 0; color: #ff6b35;">Order Items</h3>
+                            ${order.items.map(item => `
+                                <p style="margin: 5px 0;">• <img src="${item.image}" alt="${item.name}" style="width: 30px; height: 30px; object-fit: cover; border-radius: 3px; margin-right: 8px; vertical-align: middle;"><span style="font-size: 16px; margin-right: 8px;">${item.emoji}</span>${item.name} x ${item.quantity}</p>
+                            `).join('')}
+                        </div>
+
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                            <h3 style="margin: 0 0 15px 0; color: #ff6b35;">Shipping Information</h3>
+                            <p style="margin: 5px 0;">${order.shippingInfo.firstName} ${order.shippingInfo.lastName}</p>
+                            <p style="margin: 5px 0;">${order.shippingInfo.street}</p>
+                            <p style="margin: 5px 0;">${order.shippingInfo.city}, ${order.shippingInfo.state} ${order.shippingInfo.zipCode}</p>
+                            <p style="margin: 5px 0;">${order.shippingInfo.email}</p>
+                            <p style="margin: 5px 0;">${order.shippingInfo.phone}</p>
+                        </div>
+
+                        <div style="text-align: center; padding: 20px; background: #e3f2fd; border-radius: 8px; border-left: 4px solid #2196f3;">
+                            <h3 style="margin: 0 0 10px 0; color: #1565c0;">What's Next?</h3>
+                            <p style="margin: 0; color: #1976d2;">
+                                ${order.orderStatus === 'shipped' ? 'Your order is on the way! We\'ll notify you when it\'s delivered.' : 
+                                  order.orderStatus === 'delivered' ? 'Your order has been delivered! Enjoy your purchase!' :
+                                  order.orderStatus === 'cancelled' ? 'Your order has been cancelled. If you have any questions, please contact us.' :
+                                  'Your order is being processed. We\'ll update you when it ships.'}
+                            </p>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                            <p style="color: #666; margin: 0;">
+                                Questions? Contact us at <a href="mailto:info@Blazecity.com" style="color: #ff6b35;">info@Blazecity.com</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log('Order status update email sent to:', userEmail);
+    } catch (error) {
+        console.error('Failed to send order status update email:', error);
+    }
+}
+
 module.exports = {
     sendOrderConfirmationEmail,
-    sendAdminOrderNotification
+    sendAdminOrderNotification,
+    sendOrderStatusUpdateEmail
 };
