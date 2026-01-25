@@ -3,7 +3,7 @@
 // ============================================
 
 // API Base URL - Change this if your backend runs on a different port
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://lighter-2xeg.onrender.com/api';
 
 // Paystack Public Key (Replace with your actual public key)
 const PAYSTACK_PUBLIC_KEY = 'pk_test_232531a5c927ef2cc67ed1b85af3f26e3b8ed2f2';
