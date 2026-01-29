@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --checkout-bg: rgba(20, 20, 20, 0.95);
@@ -229,11 +231,122 @@
             font-weight: bold;
         }
 
-        .order-summary {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px;
+        /* ===== PRELOADER ===== */
+        .preloader-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .preloader-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 107, 53, 0.1);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
             margin-bottom: 20px;
+        }
+
+        .preloader-text {
+            color: var(--light-text);
+            font-size: 1.2rem;
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 1px;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        /* ===== REDESIGNED ORDER SUMMARY ===== */
+        .summary-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .summary-toggle-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .summary-toggle-btn i {
+            font-size: 1.5rem;
+        }
+
+        .checkout-summary-section {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 400px;
+            height: 100vh;
+            z-index: 1000;
+            margin: 0;
+            border-radius: 0;
+            transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+        }
+
+        .checkout-summary-section.active {
+            right: 0;
+        }
+
+        .summary-header {
+            padding: 30px;
+            background: rgba(255, 107, 53, 0.1);
+            border-bottom: 1px solid var(--checkout-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary-content {
+            padding: 30px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .checkout-container {
+            max-width: 800px;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-summary-section {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        .summary-item-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
         .summary-title {
@@ -387,6 +500,17 @@
 </head>
 <body>
 
+    <!-- Preloader Overlay -->
+    <div class="preloader-overlay" id="preloader">
+        <div class="preloader-spinner"></div>
+        <div class="preloader-text">fetching your shiping data, please standby as we do the hard part</div>
+    </div>
+
+    <!-- Summary Toggle Button -->
+    <button class="summary-toggle-btn" id="summaryToggleBtn" title="View Order Summary">
+        <i class="fas fa-shopping-basket"></i>
+    </button>
+
     <!-- Background Video -->
     <video class="background-video" autoplay muted loop playsinline>
         <source src="flames.mp4" type="video/mp4">
@@ -455,29 +579,36 @@
                 </form>
             </section>
 
-            <!-- Order Summary -->
-            <section class="checkout-summary-section">
-                <div class="order-summary">
-                    <h3 class="summary-title">Order Summary</h3>
+            <!-- Order Summary Sidebar -->
+            <aside class="checkout-summary-section" id="summarySidebar">
+                <div class="summary-header">
+                    <h3 class="summary-title" style="margin: 0;">Order Summary</h3>
+                    <button id="closeSummary" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                </div>
+                
+                <div class="summary-content">
                     <div class="summary-items" id="summaryItems">
                         <!-- Items will be populated by JavaScript -->
                     </div>
-                    <div class="summary-item summary-total">
-                        <span>Total:</span>
-                        <span id="checkoutTotal">$0.00</span>
+                    
+                    <div class="summary-total-section" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid var(--primary-color);">
+                        <div class="summary-item" style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem; color: var(--secondary-color);">
+                            <span>Total:</span>
+                            <span id="checkoutTotal">$0.00</span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="checkout-security">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                        <span style="color: var(--success-color);">🔒</span>
-                        <span style="font-weight: 600;">Secure Checkout</span>
+                    <div class="checkout-security" style="margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <span style="color: var(--success-color);">🔒</span>
+                            <span style="font-weight: 600;">Secure Checkout</span>
+                        </div>
+                        <p style="color: var(--gray-text); font-size: 0.9rem; line-height: 1.4;">
+                            Your payment information is encrypted and secure. We use Paystack's industry-leading security measures.
+                        </p>
                     </div>
-                    <p style="color: var(--gray-text); font-size: 0.9rem; line-height: 1.4;">
-                        Your payment information is encrypted and secure. We use Paystack's industry-leading security measures.
-                    </p>
                 </div>
-            </section>
+            </aside>
         </div>
     </main>
 
@@ -521,6 +652,7 @@
 
         // ===== DOM ELEMENTS =====
         let checkoutForm, summaryItems, checkoutTotal, checkoutBtn, successMessage;
+        let preloader, summarySidebar, summaryToggleBtn, closeSummary;
 
         // ===== INITIALIZE CHECKOUT =====
         document.addEventListener('DOMContentLoaded', async () => {
@@ -530,6 +662,29 @@
             checkoutTotal = document.getElementById('checkoutTotal');
             checkoutBtn = document.getElementById('checkoutBtn');
             successMessage = document.getElementById('successMessage');
+            
+            preloader = document.getElementById('preloader');
+            summarySidebar = document.getElementById('summarySidebar');
+            summaryToggleBtn = document.getElementById('summaryToggleBtn');
+            closeSummary = document.getElementById('closeSummary');
+
+            // Summary Toggle Logic
+            summaryToggleBtn.addEventListener('click', () => {
+                summarySidebar.classList.add('active');
+            });
+
+            closeSummary.addEventListener('click', () => {
+                summarySidebar.classList.remove('active');
+            });
+
+            // Close summary when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                if (summarySidebar.classList.contains('active') && 
+                    !summarySidebar.contains(e.target) && 
+                    !summaryToggleBtn.contains(e.target)) {
+                    summarySidebar.classList.remove('active');
+                }
+            });
 
             // Add form submit event listener
             checkoutForm.addEventListener('submit', handleCheckoutSubmit);
@@ -983,7 +1138,14 @@
         // ===== LOAD USER DATA =====
         async function loadUserData() {
             try {
+                // Show preloader
+                if (preloader) preloader.classList.remove('hidden');
+                
                 const userData = await apiCall(API_ENDPOINTS.getUser);
+                
+                // Add a small artificial delay to make the "hard part" message feel real
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
                 if (userData.success && userData.user) {
                     const user = userData.user;
                     console.log('✅ User data loaded:', user);
@@ -1040,6 +1202,9 @@
                 console.error('❌ Failed to load user data:', error);
                 // Show save option if we can't load user data
                 document.getElementById('saveShippingOption').style.display = 'block';
+            } finally {
+                // Hide preloader
+                if (preloader) preloader.classList.add('hidden');
             }
         }
 
